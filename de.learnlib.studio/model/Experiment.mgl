@@ -130,6 +130,20 @@ graphModel Experiment {
     
     @palette("Filter")
     @icon("icons/experiment/palette/filter.png")
+    @style(queryCounterFilterNode, "Symbol Counter Filter")
+    node SymbolCounterFilter extends NonComplexFilter{
+    
+    }
+    
+    @palette("Filter")
+    @icon("icons/experiment/palette/filter.png")
+    @style(queryCounterFilterNode, "Symbol Cache Filter")
+    node SymbolCacheFilter extends NonComplexFilter{
+    
+    }
+    
+    @palette("Filter")
+    @icon("icons/experiment/palette/filter.png")
     @style(complexNode, "Complex Filter")
     container ComplexFilter extends Filter {
         containableElements (NonComplexFilter[1, *])
