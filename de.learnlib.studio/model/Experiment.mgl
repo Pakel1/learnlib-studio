@@ -77,6 +77,11 @@ graphModel Experiment {
         prime mealy::Mealy as mealyReference
     }
     
+    @style(mealySulNode, "Symbol Query Oracle")
+    node SULSymbolQueryOracle extends NonComplexOracle{
+      prime mealy::Mealy as mealyRef
+    }
+    
     @palette("Membership Oracles")
     @icon("icons/experiment/palette/package.png")
     @style(complexSULNode, "SUL Membership Oracle")

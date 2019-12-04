@@ -22,14 +22,14 @@ class ExperimentOracleInterfaceTemplate
 		package « package »;
 		
 		import net.automatalib.words.Alphabet;
-		import de.learnlib.api.oracle.MembershipOracle.MealyMembershipOracle;
+		import de.learnlib.api.oracle.SymbolQueryOracle;
 		
 		
 		public interface « className » {
 			
 			Alphabet getAlphabet();
 			
-			MealyMembershipOracle<String, String> getOracle();
+			SymbolQueryOracle getOracle();
 			
 			void postBlock();
 			

@@ -48,7 +48,7 @@ class MealyGenerator
     }
     
     override learnLibArtifacts() {
-        #["learnlib-membership-oracles"]
+        #["learnlib-membership-oracles","learnlib-drivers-simulator"]
     }
     
     override getExperimentImports() {
@@ -74,8 +74,9 @@ class MealyGenerator
         import net.automatalib.words.impl.SimpleAlphabet;
         import net.automatalib.automata.transducers.impl.compact.CompactMealy;
         
-        import de.learnlib.api.oracle.MembershipOracle.MealyMembershipOracle;
-        import de.learnlib.oracle.membership.SimulatorOracle.MealySimulatorOracle;
+        import de.learnlib.api.oracle.SymbolQueryOracle;
+        import de.learnlib.oracle.membership.SULSymbolQueryOracle;
+      	import de.learnlib.driver.util.MealySimulatorSUL;
         
         import « reference(ExperimentDataTemplate) »;
         
@@ -83,7 +84,7 @@ class MealyGenerator
         public final class « className » implements ExperimentOracle {
             
             private Alphabet                              alphabet;
-            private MealyMembershipOracle<String, String> oracle;
+            private SymbolQueryOracle oracle;
             
             
             public « className »() {
@@ -102,14 +103,14 @@ class MealyGenerator
                     mealy.addTransition(« sourceElement », "« t.input »", « targetElement », "« t.output »");
                 « ENDFOR »
                 
-                oracle = new MealySimulatorOracle<>(mealy);
+                oracle = new SULSymbolQueryOracle<>(new MealySimulatorSUL(mealy));
             } 
             
             public Alphabet getAlphabet() {
                 return alphabet;
             }
             
-            public MealyMembershipOracle<String, String> getOracle() {
+            public SymbolQueryOracle getOracle() {
                 return oracle;
             }
             
