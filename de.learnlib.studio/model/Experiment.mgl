@@ -20,6 +20,7 @@ graphModel Experiment {
                          Filter,
                          Oracle,
                          Learner,
+                         SUL,
                          EQOracle,
                          ShowModel, ShowInternalData,
                          Comment
@@ -67,6 +68,10 @@ graphModel Experiment {
         incomingEdges (QueryEdge[0, *])
     }
     
+    abstract node SUL {
+    	outgoingEdges (QueryEdge[1,*])
+    }
+    
     abstract node NonComplexOracle extends Oracle {
     }
 
@@ -74,12 +79,15 @@ graphModel Experiment {
     @contextMenuAction("de.learnlib.studio.experiment.hooks.OpenMealy")
     @doubleClickAction("de.learnlib.studio.experiment.hooks.OpenMealy")
     node MealyMembershipOracle extends NonComplexOracle {
-        prime mealy::Mealy as mealyReference
+    }
+    
+    @style(mealySulNode,"Mealy SUL")
+    node Mealy extends SUL {
+    	prime mealy::Mealy as mealyReference
     }
     
     @style(mealySulNode, "Symbol Query Oracle")
     node SULSymbolQueryOracle extends NonComplexOracle{
-      prime mealy::Mealy as mealyRef
     }
     
     @palette("Membership Oracles")
