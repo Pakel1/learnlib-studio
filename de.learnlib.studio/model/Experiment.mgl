@@ -65,27 +65,28 @@ graphModel Experiment {
     
     /* Member Ship Oracles */
     abstract node Oracle {
-        incomingEdges (QueryEdge[0, *])
+        incomingEdges (QueryEdge[0, *], SulEdge[0,*])
     }
     
     abstract node SUL {
-    	outgoingEdges (QueryEdge[1,*])
+    	outgoingEdges (SulEdge[0,*])
     }
     
     abstract node NonComplexOracle extends Oracle {
     }
 
+	@palette("Membership Oracles")
     @style(mealySulNode, "Mealy Membership Oracle")
-    @contextMenuAction("de.learnlib.studio.experiment.hooks.OpenMealy")
-    @doubleClickAction("de.learnlib.studio.experiment.hooks.OpenMealy")
     node MealyMembershipOracle extends NonComplexOracle {
-    }
-    
-    @style(mealySulNode,"Mealy SUL")
-    node Mealy extends SUL {
     	prime mealy::Mealy as mealyReference
     }
     
+    @style(mealySulNode,"Mealy SUL")
+    node MealySul extends SUL {
+    	prime mealy::Mealy as mealyReference
+    }
+    
+    @palette("Membership Oracles")
     @style(mealySulNode, "Symbol Query Oracle")
     node SULSymbolQueryOracle extends NonComplexOracle{
     }
@@ -303,6 +304,10 @@ graphModel Experiment {
     
     @style(queryEdge, "Input / Output")
     edge QueryEdge { 
+    }
+    
+    @style(queryEdge, "Input")
+    edge SulEdge{
     }
     
 }

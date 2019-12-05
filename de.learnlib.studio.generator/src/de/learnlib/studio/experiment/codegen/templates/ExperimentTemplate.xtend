@@ -23,7 +23,9 @@ import de.learnlib.studio.experiment.experiment.SULMembershipOracle
 import de.learnlib.studio.experiment.experiment.QueryCounterFilter
 
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.isComplexNode
-
+import de.learnlib.studio.experiment.codegen.providers.MealyInformationProvider
+import de.learnlib.studio.experiment.experiment.MealySul
+import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentMealyInterfaceTemplate
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -66,6 +68,15 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         return result
     }
     
+    private def getMealyInformationProviders(){
+    	val mealys = currentConfiguration.nodes.filter[x | x instanceof MealySul]
+    	val result = <MealyInformationProvider<? extends Node>> newLinkedList()
+    	for (m : mealys) {
+    		result += context.getProvider(m, MealyInformationProvider)
+    	}
+    	return result
+    }
+    
     private def addNodeToResult(List<OracleInformationProvider<? extends Node>> result, Node node) {
     	val provider = context.getProvider(node, OracleInformationProvider)
         if (provider === null) {
@@ -102,20 +113,27 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     override template() '''
         « val oiProviders = getOracleInformationProviders() »
         « val eiProviders = getCurrentExperimentRuntimeInformationProvider() »
+        « val miProviders = getMealyInformationProviders() »
         package « package »;
         
-        « importsTemplate(oiProviders) »
+        « importsTemplate(oiProviders, miProviders) »
         
         
         public class « className » extends AbstractExperiment {
+        	
+        	« mealyDefinitionTemplate(miProviders) »
             
             « oracleDefinitionTemplate(oiProviders) »
             
             « blockDefinitionTemplate() »
             
             
+            
+            
             public « className »() {
                 super();
+                
+                « mealyInitializationTemplate(miProviders) »
                 
                 « oracleInitializationTemplate(oiProviders) »
                 
@@ -157,13 +175,20 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         
     '''
 
-    def importsTemplate(List<OracleInformationProvider<? extends Node>> oiProviders) '''
+    def importsTemplate(List<OracleInformationProvider<? extends Node>> oiProviders, List<MealyInformationProvider<? extends Node >> miProviders) '''
         import « reference(ExperimentOracleInterfaceTemplate) »;
         « FOR p : oiProviders »
             « FOR i : p.experimentImports »
                 import « i »;
             « ENDFOR »
         « ENDFOR »
+        
+        import « reference(ExperimentMealyInterfaceTemplate) »;
+                « FOR p : miProviders »
+                    « FOR i : p.experimentImports »
+                        import « i »;
+                    « ENDFOR »
+                « ENDFOR »
         
         import « reference(BlockInterfaceTemplate) »;
         « FOR p : getCurrentExperimentRuntimeInformationProvider() »
@@ -179,6 +204,13 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             private ExperimentOracle « p.name »;
         « ENDFOR »
     '''
+    
+    def mealyDefinitionTemplate(List<MealyInformationProvider<? extends Node>> miProviders)   '''
+    	//Define the Mealys
+    	« FOR m : miProviders »
+    		private ExperimentMealy « m.name »;
+    	« ENDFOR »
+    '''
 
     def blockDefinitionTemplate() '''
         // Define the Blocks
@@ -191,6 +223,13 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         // Init. the Oracles & Filters
         « FOR p : oiProviders »
             this.« p.name » = new « p.className »(« getConstructorParameterList(p) »);
+        « ENDFOR »
+    '''
+    
+    def mealyInitializationTemplate(List<MealyInformationProvider<? extends Node>> miProviders) '''
+        // Init. the Mealys
+        « FOR p : miProviders »
+            this.« p.name » = new « p.className »();
         « ENDFOR »
     '''
     

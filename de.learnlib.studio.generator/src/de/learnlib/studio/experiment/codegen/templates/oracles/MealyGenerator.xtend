@@ -3,23 +3,23 @@ package de.learnlib.studio.experiment.codegen.templates.oracles
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils
 
 import de.learnlib.studio.experiment.codegen.GeneratorContext
-import de.learnlib.studio.experiment.experiment.MealyMembershipOracle
 import de.learnlib.studio.mealy.mealy.Mealy
 import de.learnlib.studio.mealy.mealy.MealyTransition
 import de.learnlib.studio.experiment.codegen.templates.PerNodeTemplate
 import de.learnlib.studio.experiment.codegen.templates.AbstractSourceTemplate
-import de.learnlib.studio.experiment.codegen.providers.OracleInformationProvider
 import de.learnlib.studio.experiment.codegen.providers.LearnLibArtifactProvider
 import de.learnlib.studio.experiment.codegen.templates.ExperimentDataTemplate
-
+import de.learnlib.studio.experiment.experiment.MealySul
+import de.learnlib.studio.experiment.codegen.providers.MealyInformationProvider
 
 class MealyGenerator
         extends AbstractSourceTemplate
-        implements OracleInformationProvider<MealyMembershipOracle>,
-                   PerNodeTemplate<MealyMembershipOracle>,
-                   LearnLibArtifactProvider<MealyMembershipOracle> {
+        implements 
+                   PerNodeTemplate<MealySul>,
+                   LearnLibArtifactProvider<MealySul>,
+                   MealyInformationProvider<MealySul> {
     
-    val MealyMembershipOracle node
+    val MealySul node
     val Mealy  model
     val String modelName
     
@@ -30,8 +30,8 @@ class MealyGenerator
         this.modelName = null    
     }
     
-    new(GeneratorContext context, MealyMembershipOracle mealy, int i) {
-        super(context, "oracles", getModelName(mealy.mealyReference))
+    new(GeneratorContext context, MealySul mealy, int i) {
+        super(context, "sul", getModelName(mealy.mealyReference))
         this.node = mealy
         this.model = mealy.mealyReference
         this.modelName = getModelName(mealy.mealyReference)
@@ -51,17 +51,20 @@ class MealyGenerator
         #["learnlib-membership-oracles","learnlib-drivers-simulator"]
     }
     
-    override getExperimentImports() {
-        #[fullName]
-    }
+    			
+	override getNode() {
+		return node
+	}
+				
+	override getExperimentImports() {
+		return #[package + "." + className]
+	}
+				
+	override getConstructorParameters() {
+		return #[]
+	}
     
-    override getConstructorParameters() {
-        return #[]
-    }
     
-    override getNode() {
-        return node
-    }
     
     override template() '''
         « val mealyStates      = model.mealyStates »
@@ -74,17 +77,13 @@ class MealyGenerator
         import net.automatalib.words.impl.SimpleAlphabet;
         import net.automatalib.automata.transducers.impl.compact.CompactMealy;
         
-        import de.learnlib.api.oracle.SymbolQueryOracle;
-        import de.learnlib.oracle.membership.SULSymbolQueryOracle;
-      	import de.learnlib.driver.util.MealySimulatorSUL;
-        
         import « reference(ExperimentDataTemplate) »;
         
         
-        public final class « className » implements ExperimentOracle {
+        public final class « className » implements ExperimentMealy {
             
-            private Alphabet                              alphabet;
-            private SymbolQueryOracle oracle;
+            private Alphabet alphabet;
+            private CompactMealy mealy;
             
             
             public « className »() {
@@ -95,23 +94,23 @@ class MealyGenerator
                 « ENDFOR »
                 
                 /* Create Melay */
-                CompactMealy<String, String> mealy = new CompactMealy<>(alphabet, « mealyStates.size »);
+                mealy = new CompactMealy<>(alphabet, « mealyStates.size »);
                 mealy.setInitialState(« mealyStates.indexOf(mealyInitState) »);
                 « FOR t : mealyTranstitons »
                     « val sourceElement = mealyStates.indexOf(t.sourceElement) »
                     « val targetElement = mealyStates.indexOf(t.targetElement) »
                     mealy.addTransition(« sourceElement », "« t.input »", « targetElement », "« t.output »");
                 « ENDFOR »
-                
-                oracle = new SULSymbolQueryOracle<>(new MealySimulatorSUL(mealy));
             } 
             
+            @Override
             public Alphabet getAlphabet() {
                 return alphabet;
             }
             
-            public SymbolQueryOracle getOracle() {
-                return oracle;
+            @Override
+            public CompactMealy getMealy() {
+                    return mealy;
             }
             
             @Override
@@ -120,5 +119,4 @@ class MealyGenerator
         }
         
     '''
-    
 }
