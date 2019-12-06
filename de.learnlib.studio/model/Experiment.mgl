@@ -78,7 +78,11 @@ graphModel Experiment {
 	@palette("Membership Oracles")
     @style(mealySulNode, "Mealy Membership Oracle")
     node MealyMembershipOracle extends NonComplexOracle {
-    	prime mealy::Mealy as mealyReference
+    }
+    
+    @palette("Membership Oracles")
+    @style(mealySulNode, "Parallel Oracle")
+    node ParallelOracle extends NonComplexOracle{
     }
     
     @style(mealySulNode,"Mealy SUL")
