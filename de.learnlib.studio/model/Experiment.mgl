@@ -37,6 +37,7 @@ graphModel Experiment {
         GlobalTearDown
     }
     
+    
     enum AcexAnalyzer {
         LinearBackward
         LinearForward
@@ -78,7 +79,6 @@ graphModel Experiment {
 	@palette("Membership Oracles")
     @style(mealySulNode, "Mealy Membership Oracle")
     node MealyMembershipOracle extends NonComplexOracle {
-    	prime mealy::Mealy as mealyReference
     }
     
     @palette("Membership Oracles")
