@@ -26,6 +26,7 @@ import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions
 import de.learnlib.studio.experiment.codegen.providers.MealyInformationProvider
 import de.learnlib.studio.experiment.experiment.MealySul
 import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentMealyInterfaceTemplate
+import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentSymbolOracleInterfaceTemplate
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -177,6 +178,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
 
     def importsTemplate(List<OracleInformationProvider<? extends Node>> oiProviders, List<MealyInformationProvider<? extends Node >> miProviders) '''
         import « reference(ExperimentOracleInterfaceTemplate) »;
+        import « reference(ExperimentSymbolOracleInterfaceTemplate) »;
         « FOR p : oiProviders »
             « FOR i : p.experimentImports »
                 import « i »;
@@ -198,10 +200,11 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « ENDFOR »
     '''
 
+	//TODO: ExperimentSymbol & Oracle seperation
     def oracleDefinitionTemplate(List<OracleInformationProvider<? extends Node>> oiProviders) '''
         // Define the Oracles & Filters
         « FOR p : oiProviders »
-            private ExperimentOracle « p.name »;
+            private ExperimentSymbolOracle « p.name »;
         « ENDFOR »
     '''
     

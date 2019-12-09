@@ -65,7 +65,7 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
    
     import « reference(ExperimentDataTemplate) »;
     			       	        
-    public class « className » implements ExperimentOracle {
+    public class « className » implements ExperimentSymbolOracle {
     	
     	ExperimentMealy mealy;		                       
     	public « className »(ExperimentMealy mealy) {

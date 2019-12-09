@@ -74,12 +74,12 @@ class SymbolCacheFilterTemplate extends AbstractSourceTemplate
 	import de.learnlib.filter.cache.mealy.SymbolQueryCache;
 	        
 	        
-	public class « className » implements ExperimentOracle {
+	public class « className » implements ExperimentSymbolOracle {
 	            
-	   private ExperimentOracle delegate;
+	   private ExperimentSymbolOracle delegate;
 	            
 	            
-	    public « className »(ExperimentOracle delegate) {
+	    public « className »(ExperimentSymbolOracle delegate) {
 	        this.delegate = delegate;
 	    }
 	            

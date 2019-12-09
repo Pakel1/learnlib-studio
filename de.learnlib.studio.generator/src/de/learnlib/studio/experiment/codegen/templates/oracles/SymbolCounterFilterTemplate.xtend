@@ -75,9 +75,9 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
 	       
 	 import « reference(ResultWriterTemplate) »;
 	
-	 public class « className » implements ExperimentOracle {
+	 public class « className » implements ExperimentSymbolOracle {
 	
-	    private ExperimentOracle delegate;
+	    private ExperimentSymbolOracle delegate;
 	    private CounterSymbolQueryOracle oracle;
 	            
 	    private long prevSymbolSum;
@@ -85,7 +85,7 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
 	    private int stepCount;
 	    private String name;
 	
-	     public « className»(ExperimentOracle delegate) {
+	     public « className»(ExperimentSymbolOracle delegate) {
 	         this.delegate = delegate;
 	         this.oracle = new CounterSymbolQueryOracle(delegate.getOracle());
 	         this.name = "SymbolCounter";

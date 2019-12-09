@@ -11,7 +11,7 @@ import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentOracleI
 import de.learnlib.studio.experiment.codegen.templates.blocks.AbstractBlockTemplate
 import de.learnlib.studio.experiment.codegen.templates.blocks.AbstractBlockInterfaceImplTemplate
 import de.learnlib.studio.experiment.experiment.QueryEdge
-
+import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentSymbolOracleInterfaceTemplate
 
 abstract class AbstractLearnerBlockTemplate<L extends Learner>
 			extends AbstractBlockTemplate<L>
@@ -77,13 +77,18 @@ abstract class AbstractLearnerBlockTemplate<L extends Learner>
         import net.automatalib.automata.transducers.MealyMachine;
         
         import « reference(ExperimentOracleInterfaceTemplate) »;
+        import « reference(ExperimentSymbolOracleInterfaceTemplate) »;
         import « reference(AbstractBlockInterfaceImplTemplate) »;
         
         
         public class « className » extends AbstractBlock {
         	
         	private transient « algorithmClass » learner;
-        	private transient final ExperimentOracle oracle;
+        	« IF algorithmClass.equals("ADTLearner") »
+        		private transient final ExperimentSymbolOracle oracle;
+        	« ELSE »
+        		private transient final ExperimentOracle oracle;
+        	« ENDIF »
         	« FOR variable : additionalVariables »
         	   private transient final « variable.key » « variable.value »;
         	« ENDFOR »
@@ -145,7 +150,11 @@ abstract class AbstractLearnerBlockTemplate<L extends Learner>
     '''
     
     protected def getConstuctorStatement() '''
-        public « className »(String blockId, ExperimentOracle oracle« getAdditionalVariablesParameterList ») {
+    	« IF algorithmClass.equals("ADTLearner") »
+    	      public « className »(String blockId, ExperimentSymbolOracle oracle« getAdditionalVariablesParameterList ») {   		
+    	« ELSE »
+    	      public « className »(String blockId, ExperimentOracle oracle« getAdditionalVariablesParameterList ») {
+    	« ENDIF »
             super(blockId);
             this.oracle  = oracle;
             « FOR variable : additionalVariables »
