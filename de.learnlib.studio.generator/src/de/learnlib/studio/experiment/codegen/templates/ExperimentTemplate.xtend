@@ -28,6 +28,9 @@ import de.learnlib.studio.experiment.experiment.MealySul
 import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentMealyInterfaceTemplate
 import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentSymbolOracleInterfaceTemplate
 import de.learnlib.studio.experiment.experiment.MealyMembershipOracle
+import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
+import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
+import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -205,10 +208,12 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     def oracleDefinitionTemplate(List<OracleInformationProvider<? extends Node>> oiProviders) '''
         // Define the Oracles & Filters
         « FOR p : oiProviders »
-        « IF p.node instanceof MealyMembershipOracle »
-            private ExperimentOracle « p.name »;
+        « IF p.node instanceof SULSymbolQueryOracle ||
+        	 p.node instanceof SymbolCacheFilter ||
+        	 p.node instanceof SymbolCounterFilter »
+            private ExperimentSymbolOracle « p.name »;
         « ELSE»
-        	private ExperimentSymbolOracle « p.name »;
+        	private ExperimentOracle « p.name »;
         « ENDIF»
         « ENDFOR »
     '''

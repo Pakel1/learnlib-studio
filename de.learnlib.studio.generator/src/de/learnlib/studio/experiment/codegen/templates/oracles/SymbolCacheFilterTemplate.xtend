@@ -82,11 +82,13 @@ class SymbolCacheFilterTemplate extends AbstractSourceTemplate
 	    public « className »(ExperimentSymbolOracle delegate) {
 	        this.delegate = delegate;
 	    }
-	            
+	    
+	    @Override        
 	    public Alphabet getAlphabet() {
 	        return delegate.getAlphabet();
 	     }
-	            
+	     
+	     @Override      
 	     public SymbolQueryOracle getOracle() {
 	        return new SymbolQueryCache<>(delegate.getOracle(), delegate.getAlphabet());
 	     }

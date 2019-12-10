@@ -93,11 +93,13 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
 	         this.prevResetSum = 0;
 	         this.stepCount = 0;
 	      }
-	      
+	 
+	 @Override     
 	 public Alphabet getAlphabet() {
 	        return delegate.getAlphabet();
 	 }
-	            
+	 
+	 @Override           
 	 public SymbolQueryOracle getOracle() {
 	     return oracle;
 	 }

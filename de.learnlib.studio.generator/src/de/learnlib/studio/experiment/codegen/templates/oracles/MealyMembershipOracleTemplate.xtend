@@ -23,7 +23,7 @@ PerNodeTemplate<MealyMembershipOracle>,OracleInformationProvider<MealyMembership
 	
 	new(GeneratorContext context, MealyMembershipOracle node, int i
 	) {
-        super(context, "oracles", "MealyMembershipOracle")
+        super(context, "oracles", "MealyMembershipOracle" + i)
         this.node = node
         this.i       = i
 	}
@@ -61,11 +61,13 @@ PerNodeTemplate<MealyMembershipOracle>,OracleInformationProvider<MealyMembership
     	public « className »(ExperimentMealy mealy) {
     		this.mealy = mealy;
     	}
-    			            
+    	
+    	@Override		            
     	public Alphabet getAlphabet() {
     		return mealy.getAlphabet();
     	}
-    			            
+    	
+    	@Override		            
     	public MembershipOracle getOracle() {
     			return new SimulatorOracle<>(mealy.getMealy());
     	}
