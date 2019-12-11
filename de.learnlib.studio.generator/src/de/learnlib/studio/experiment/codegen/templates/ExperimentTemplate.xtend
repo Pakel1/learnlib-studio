@@ -31,6 +31,7 @@ import de.learnlib.studio.experiment.experiment.MealyMembershipOracle
 import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
 import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
 import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
+import de.learnlib.studio.experiment.experiment.ParallelOracle
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -187,6 +188,9 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             « FOR i : p.experimentImports »
                 import « i »;
             « ENDFOR »
+          	« IF p.node instanceof ParallelOracle »
+          	 	import de.learnlib.oracle.parallelism.StaticParallelOracle;
+          	« ENDIF»
         « ENDFOR »
         
         import « reference(ExperimentMealyInterfaceTemplate) »;

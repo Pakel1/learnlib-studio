@@ -37,6 +37,11 @@ graphModel Experiment {
         GlobalTearDown
     }
     
+    enum PoolPolicy{
+    	Fixed
+    	Cached
+    }
+    
     
     enum AcexAnalyzer {
         LinearBackward
@@ -86,6 +91,8 @@ graphModel Experiment {
     @style(mealySulNode, "Parallel Oracle")
     node ParallelOracle extends NonComplexOracle{
     	incomingEdges(OracleEdge[1,*])
+    	attr PoolPolicy as poolPolicy := Fixed
+    	attr EInt as minBatchSize := "5" 
     }
     
     @style(mealySulNode,"Mealy SUL")

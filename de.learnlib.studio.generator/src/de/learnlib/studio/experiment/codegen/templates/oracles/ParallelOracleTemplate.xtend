@@ -40,8 +40,10 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
 	}
 	
 	override getConstructorParameters() {
-		val edges = node.getIncoming(OracleEdge)
 		val oracles = new LinkedList
+		oracles.add(poolPolicyasConstructorParameter)
+		oracles.add(node.minBatchSize)
+		val edges = node.getIncoming(OracleEdge)
 		while(!edges.empty){
 			val oracle = edges.head.sourceElement
 			edges.remove(edges.head)
@@ -54,23 +56,44 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
 		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism"]
 	}
 	
+	private def getPoolPolicyasConstructorParameter(){
+		val poolPolicyEnumName = switch (node.poolPolicy){
+		case FIXED:		"FIXED"
+		case CACHED:	"CACHED"
+		}
+		val fullPoolPolicyName = "StaticParallelOracle.PoolPolicy." + poolPolicyEnumName
+	    return new PoolPolicyConstructorWrapper(fullPoolPolicyName)
+	}
+	
+	@Data
+	static class PoolPolicyConstructorWrapper {
+		val String poolPolicy
+		
+		override toString() {
+			return poolPolicy
+		}
+	}
+	
 	override template() '''
     package « package »;
     
-   import de.learnlib.api.oracle.MembershipOracle;
-   import de.learnlib.oracle.parallelism.StaticParallelOracle;
-   import net.automatalib.words.Alphabet;
-   import java.util.ArrayList;
-   import java.util.Arrays;
-   import java.util.List;
+  	 import de.learnlib.api.oracle.MembershipOracle;
+  	 import de.learnlib.oracle.parallelism.StaticParallelOracle;
+  	 import net.automatalib.words.Alphabet;
+  	 import java.util.ArrayList;
+  	 import java.util.Arrays;
     			       	        
     public class « className » implements ExperimentOracle {
     	
     	ArrayList mOracles;
-    	ExperimentOracle oracle;	
+    	ExperimentOracle oracle;
+    	StaticParallelOracle.PoolPolicy poolPolicy;
+    	int minBatchSize;	
     	                       
-    	public « className »(ExperimentOracle... oracles) {
+    	public « className »(StaticParallelOracle.PoolPolicy poolPolicy, int minBatchSize, ExperimentOracle... oracles) {
     		this.oracle = oracles[0];
+    		this.minBatchSize = minBatchSize;
+    		this.poolPolicy = poolPolicy;
     		mOracles = prepareMembershipOracles(oracles);
     	}
     	
@@ -81,8 +104,7 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     	
     	@Override		            
     	public MembershipOracle getOracle() {
-    			return new new StaticParallelOracle<>(mOracles,3
-    			                ,StaticParallelOracle.PoolPolicy.FIXED);
+    			return new StaticParallelOracle<>(mOracles, minBatchSize,poolPolicy);
     	}
     			            
     	@Override
