@@ -44,7 +44,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     }
     
     private def getOracleInformationProviders() {
-        val oracles = currentConfiguration.nodes.filter[n | n instanceof Oracle && !(n instanceof Filter)]
+        val oracles = currentConfiguration.nodes.filter[n | n instanceof Oracle && !(n instanceof Filter) && !(n instanceof ParallelOracle)]
         
         val result = <OracleInformationProvider<? extends Node>> newLinkedList()
         val queue = <Node> newLinkedList(oracles)
@@ -70,7 +70,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             	addNodeToResult(result, currentNode)
             }
         }
-        
+        val parallelOracle = currentConfiguration.nodes.filter[n | n instanceof ParallelOracle]
+        if(!parallelOracle.isEmpty) addNodeToResult(result, parallelOracle.get(0))
         return result
     }
     
