@@ -72,7 +72,7 @@ graphModel Experiment {
     /* Member Ship Oracles */
     abstract node Oracle {
         incomingEdges (QueryEdge[0, *], SulEdge[0,*])
-        outgoingEdges(OracleEdge[0,1])
+        outgoingEdges(OracleEdge[0,1], QueryEdge[0,1])
     }
     
     abstract node SUL {
@@ -132,7 +132,7 @@ graphModel Experiment {
     
     /* Oracle Filter */
     abstract node Filter extends Oracle {
-        outgoingEdges (QueryEdge [0, 1])
+    	
     }
     
     abstract node NonComplexFilter extends Filter {
