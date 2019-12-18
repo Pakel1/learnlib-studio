@@ -17,7 +17,7 @@ class SymbolCacheFilterTemplate extends AbstractSourceTemplate
 		LearnLibArtifactProvider<SymbolCacheFilter> {
 	
 	val SymbolCacheFilter filter
-	val int i		
+	val int i	
 			
 	new(GeneratorContext context) {
 		this(context, null, -1)
@@ -34,7 +34,7 @@ class SymbolCacheFilterTemplate extends AbstractSourceTemplate
 	}
 			
 	override getName() {
-		return "cache" + i
+		return "symbolCache" + i 
 	}
 				
 	override getExperimentImports() {

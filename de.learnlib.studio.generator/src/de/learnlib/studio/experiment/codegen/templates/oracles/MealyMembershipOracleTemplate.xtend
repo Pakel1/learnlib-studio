@@ -33,7 +33,7 @@ PerNodeTemplate<MealyMembershipOracle>,OracleInformationProvider<MealyMembership
 	}
 	
 	override getExperimentImports() {
-		 return #[package + "." + className]
+		 return #[package + "." + className, package + ".sul.ExperimentMealy" ]
 	}
 	
 	override getConstructorParameters() {
@@ -50,7 +50,6 @@ PerNodeTemplate<MealyMembershipOracle>,OracleInformationProvider<MealyMembership
     
    import de.learnlib.api.oracle.MembershipOracle;
    import de.learnlib.oracle.membership.SimulatorOracle;
-   import de.learnlib.studio.examples.sul.ExperimentMealy;
    import net.automatalib.words.Alphabet;
    
     import « reference(ExperimentDataTemplate) »;

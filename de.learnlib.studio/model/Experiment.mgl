@@ -71,8 +71,8 @@ graphModel Experiment {
     
     /* Member Ship Oracles */
     abstract node Oracle {
-        incomingEdges (QueryEdge[0, *], SulEdge[0,*])
-        outgoingEdges(OracleEdge[0,1], QueryEdge[0,1])
+        incomingEdges (QueryEdge[0,1], SulEdge[0,*])
+        outgoingEdges(OracleEdge[0,1], QueryEdge[0,*])
     }
     
     abstract node SUL {
@@ -90,7 +90,7 @@ graphModel Experiment {
     @palette("Membership Oracles")
     @style(mealySulNode, "Parallel Oracle")
     node ParallelOracle extends NonComplexOracle{
-    	incomingEdges(OracleEdge[1,*])
+    	outgoingEdges(OracleEdge[2,*])
     	attr PoolPolicy as poolPolicy := Fixed
     	attr EInt as minBatchSize := "5" 
     }

@@ -57,7 +57,7 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
     }
     
     override getName() {
-        return "counter" + i
+        return "symbolCounter" + i
     }
 
     override getNode() {
