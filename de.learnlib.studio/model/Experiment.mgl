@@ -71,8 +71,8 @@ graphModel Experiment {
     
     /* Member Ship Oracles */
     abstract node Oracle {
-        incomingEdges (QueryEdge[0,1], SulEdge[0,*])
-        outgoingEdges(OracleEdge[0,1], QueryEdge[0,*])
+        incomingEdges (QueryEdge[0,*], SulEdge[0,*], OracleEdge[0,1])
+        outgoingEdges( QueryEdge[0,1])
     }
     
     abstract node SUL {
@@ -90,6 +90,7 @@ graphModel Experiment {
     @palette("Membership Oracles")
     @style(mealySulNode, "Parallel Oracle")
     node ParallelOracle extends NonComplexOracle{
+    	incomingEdges(ParallelOracleEdge[0,1])
     	outgoingEdges(OracleEdge[2,*])
     	attr PoolPolicy as poolPolicy := Fixed
     	attr EInt as minBatchSize := "5" 
@@ -103,6 +104,12 @@ graphModel Experiment {
     @palette("Membership Oracles")
     @style(mealySulNode, "Symbol Query Oracle")
     node SULSymbolQueryOracle extends NonComplexOracle{
+    }
+    
+    @palette("Membership Oracles")
+    @style(mealySulNode, "Super Oracle")
+    node SuperOracle extends NonComplexOracle{
+    	outgoingEdges(ParallelOracleEdge[1,1], OracleEdge[1,1])
     }
     
     @palette("Membership Oracles")
@@ -149,6 +156,13 @@ graphModel Experiment {
     @style(queryCounterFilterNode, "Query Counter")
     node QueryCounterFilter extends NonComplexFilter {
         attr EString as name := ""
+    }
+    
+    @palette("Filter")
+    @icon("icons/experiment/palette/filter.png")
+    @style(queryCounterFilterNode, "QSR Counter Filter")
+    node QSRCounterFilter extends NonComplexFilter{
+    
     }
     
     @palette("Filter")
@@ -328,6 +342,9 @@ graphModel Experiment {
     edge OracleEdge{
     }
     
+    @style(queryEdge, "Membership Oracle")
+    edge ParallelOracleEdge{
+    }
     
     
 }

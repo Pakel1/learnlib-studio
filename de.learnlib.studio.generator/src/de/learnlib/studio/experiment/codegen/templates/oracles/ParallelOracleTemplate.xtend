@@ -43,9 +43,9 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
 		val oracles = new LinkedList
 		oracles.add(poolPolicyasConstructorParameter)
 		oracles.add(node.minBatchSize)
-		val edges = node.getIncoming(OracleEdge)
+		val edges = node.getOutgoing(OracleEdge)
 		while(!edges.empty){
-			val oracle = edges.head.sourceElement
+			val oracle = edges.head.targetElement
 			edges.remove(edges.head)
 			oracles.add(oracle)
 		}

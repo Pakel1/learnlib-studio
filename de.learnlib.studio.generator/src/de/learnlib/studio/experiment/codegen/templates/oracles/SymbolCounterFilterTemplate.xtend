@@ -128,7 +128,7 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
 	             public void dispose() {
 	                 System.out.println("Symbol Counter " +  "(sum): " + oracle.getSymbolCount());
 	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getSymbolCount()));
-	                 System.out.println("Symbol Counter " +  "(sum): " + oracle.getResetCount());
+	                 System.out.println("Reset Counter " +  "(sum): " + oracle.getResetCount());
 	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getResetCount()));
 	                 delegate = null;
 	             }

@@ -32,6 +32,7 @@ import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
 import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
 import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 import de.learnlib.studio.experiment.experiment.ParallelOracle
+import de.learnlib.studio.experiment.experiment.SuperOracle
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -44,7 +45,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     }
     
     private def getOracleInformationProviders() {
-        val oracles = currentConfiguration.nodes.filter[n | n instanceof Oracle && !(n instanceof Filter) && !(n instanceof ParallelOracle)]
+        val oracles = currentConfiguration.nodes.filter[n | n instanceof Oracle && !(n instanceof Filter) &&
+        	!(n instanceof ParallelOracle) && !(n instanceof SuperOracle)]
         
         val result = <OracleInformationProvider<? extends Node>> newLinkedList()
         val queue = <Node> newLinkedList(oracles)
@@ -70,8 +72,13 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             	addNodeToResult(result, currentNode)
             }
         }
+        
         val parallelOracle = currentConfiguration.nodes.filter[n | n instanceof ParallelOracle]
         if(!parallelOracle.isEmpty) addNodeToResult(result, parallelOracle.get(0))
+        
+        val superOracle = currentConfiguration.nodes.filter[n | n instanceof SuperOracle]
+        if(!parallelOracle.isEmpty) addNodeToResult(result, superOracle.get(0))
+        
         return result
     }
     
@@ -215,7 +222,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « FOR p : oiProviders »
         « IF p.node instanceof SULSymbolQueryOracle ||
         	 p.node instanceof SymbolCacheFilter ||
-        	 p.node instanceof SymbolCounterFilter »
+        	 p.node instanceof SymbolCounterFilter ||
+        	 p.node instanceof SuperOracle »
             private ExperimentSymbolOracle « p.name »;
         « ELSE»
         	private ExperimentOracle « p.name »;

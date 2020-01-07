@@ -38,6 +38,10 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
 		return oracle
 	}
 	
+	override getName(){
+		return "SymbolQueryOracle" + i;
+	}
+	
 	override getExperimentImports() {
 		 return #[package + "." + className]
 	}
@@ -56,7 +60,8 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
     override template() '''
     package « package »;
     
-    import de.learnlib.studio.examples.sul.ExperimentMealy;
+     «  val mealy = context.modelPackage + ".sul.ExperimentMealy"  »
+       import «  mealy »;
     			        
    import de.learnlib.driver.util.MealySimulatorSUL;
    import de.learnlib.oracle.membership.SULSymbolQueryOracle;
