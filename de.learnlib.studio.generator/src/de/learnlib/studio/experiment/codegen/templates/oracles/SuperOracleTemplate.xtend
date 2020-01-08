@@ -1,13 +1,18 @@
 package de.learnlib.studio.experiment.codegen.templates.oracles
 
+import de.learnlib.studio.experiment.codegen.GeneratorContext
 import de.learnlib.studio.experiment.codegen.providers.LearnLibArtifactProvider
-import de.learnlib.studio.experiment.experiment.SuperOracle
 import de.learnlib.studio.experiment.codegen.providers.OracleInformationProvider
 import de.learnlib.studio.experiment.codegen.templates.AbstractSourceTemplate
 import de.learnlib.studio.experiment.codegen.templates.PerNodeTemplate
-import de.learnlib.studio.experiment.codegen.GeneratorContext
-import de.learnlib.studio.experiment.experiment.ParallelOracleEdge
 import de.learnlib.studio.experiment.experiment.OracleEdge
+import de.learnlib.studio.experiment.experiment.ParallelOracle
+import de.learnlib.studio.experiment.experiment.ParallelOracleEdge
+import de.learnlib.studio.experiment.experiment.SuperOracle
+import de.learnlib.studio.experiment.experiment.QSRCounterFilter
+import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
+import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
+import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
 
 class SuperOracleTemplate extends AbstractSourceTemplate implements
 PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArtifactProvider<SuperOracle> {
@@ -36,13 +41,26 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	}
 	
 	override learnLibArtifacts() {
-		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism"]
+		 #["learnlib-membership-oracles","learnlib-drivers-simulator","learnlib-parallelism"]
 	}
 	
 	override getConstructorParameters() {
 		val delegateParallel = node.getOutgoing(ParallelOracleEdge).head.targetElement
-		val delegateOracle = node.getOutgoing(OracleEdge).head.targetElement
-		return #[delegateParallel,delegateOracle]
+		
+		val oracle = getDelegateOracle(delegateParallel)
+		
+		return #[delegateParallel,oracle]
+	}
+	
+	protected def getDelegateOracle(ParallelOracle delegateParallel) {
+		val edges = delegateParallel.getOutgoing(OracleEdge)
+		while(!edges.isEmpty){
+			val oracle = edges.head
+			if(oracle instanceof SULSymbolQueryOracle || oracle instanceof SymbolCacheFilter || oracle instanceof QSRCounterFilter
+				|| oracle instanceof SymbolCounterFilter) return oracle.targetElement
+			edges.remove(edges.head)
+		}
+		
 	}
 	
 	override template() '''

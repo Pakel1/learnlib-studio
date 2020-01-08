@@ -27,12 +27,12 @@ import de.learnlib.studio.experiment.codegen.providers.MealyInformationProvider
 import de.learnlib.studio.experiment.experiment.MealySul
 import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentMealyInterfaceTemplate
 import de.learnlib.studio.experiment.codegen.templates.oracles.ExperimentSymbolOracleInterfaceTemplate
-import de.learnlib.studio.experiment.experiment.MealyMembershipOracle
 import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
 import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
 import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 import de.learnlib.studio.experiment.experiment.ParallelOracle
 import de.learnlib.studio.experiment.experiment.SuperOracle
+import de.learnlib.studio.experiment.experiment.CacheFilter
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -79,7 +79,10 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         val superOracle = currentConfiguration.nodes.filter[n | n instanceof SuperOracle]
         if(!parallelOracle.isEmpty) addNodeToResult(result, superOracle.get(0))
         
-        return result
+       	val cache = currentConfiguration.nodes.filter[n | n instanceof CacheFilter && !done.contains(n)]
+       	if(!cache.isEmpty) addNodeToResult(result, cache.get(0))
+       	
+       	return result
     }
     
     private def getMealyInformationProviders(){

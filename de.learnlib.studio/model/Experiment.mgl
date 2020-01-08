@@ -109,7 +109,7 @@ graphModel Experiment {
     @palette("Membership Oracles")
     @style(mealySulNode, "Super Oracle")
     node SuperOracle extends NonComplexOracle{
-    	outgoingEdges(ParallelOracleEdge[1,1], OracleEdge[1,1])
+    	outgoingEdges(ParallelOracleEdge[1,1])
     }
     
     @palette("Membership Oracles")

@@ -32,7 +32,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
 	}
 	
     override learnLibArtifacts() {
-        return #["learnlib-statistics"]
+       return #["learnlib-statistics"]
     }
     
     override getConstructorParameters() {
