@@ -56,8 +56,10 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 		val edges = delegateParallel.getOutgoing(OracleEdge)
 		while(!edges.isEmpty){
 			val oracle = edges.head
-			if(oracle instanceof SULSymbolQueryOracle || oracle instanceof SymbolCacheFilter || oracle instanceof QSRCounterFilter
-				|| oracle instanceof SymbolCounterFilter) return oracle.targetElement
+			if(oracle.targetElement instanceof SULSymbolQueryOracle || oracle.targetElement instanceof SymbolCacheFilter ||
+				 oracle.targetElement instanceof QSRCounterFilter|| oracle.targetElement instanceof SymbolCounterFilter) 
+				 return oracle.targetElement
+				 
 			edges.remove(edges.head)
 		}
 		

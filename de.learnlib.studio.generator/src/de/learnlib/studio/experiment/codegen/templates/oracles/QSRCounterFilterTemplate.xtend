@@ -130,12 +130,12 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         	             
         	             public void dispose() {
         	                 System.out.println("Symbol Counter " +  "(sum): " + oracle.getSymbolCount());
-        	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getSymbolCount()));
-        	                 System.out.println("Reset Counter " +  "(sum): " + oracle.getResetCount());
-        	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getResetCount()));
-        	                 System.out.println("Query Counter " +  "(sum): " + oracle.getQueryCount());
-        	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getQueryCount()));
-        	                 delegate = null;
+        	                    	                 System.out.println("Reset Counter " +  "(sum): " + oracle.getResetCount());
+        	                    	                 System.out.println("Query Counter " +  "(sum): " + oracle.getQueryCount());
+        	                						 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getSymbolCount()));
+        	                						 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getResetCount()));
+        	                    	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getQueryCount()));
+        	                    	                 delegate = null;
         	             }
         	             
         

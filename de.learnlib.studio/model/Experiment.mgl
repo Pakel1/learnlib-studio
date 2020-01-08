@@ -79,6 +79,8 @@ graphModel Experiment {
     	outgoingEdges (SulEdge[0,*])
     }
     
+    abstract node NonComplexSUL extends SUL{}
+    
     abstract node NonComplexOracle extends Oracle {
     }
 
@@ -97,9 +99,15 @@ graphModel Experiment {
     }
     
     @style(mealySulNode,"Mealy SUL")
-    node MealySul extends SUL {
+    node MealySul extends NonComplexSUL {
     	prime mealy::Mealy as mealyReference
     }
+    
+    @style(mealySulNode,"Multiple SUL")
+    container MultipleSUL extends SUL {
+    	containableElements(NonComplexSUL)
+    }
+    
     
     @palette("Membership Oracles")
     @style(mealySulNode, "Symbol Query Oracle")

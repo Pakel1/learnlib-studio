@@ -47,9 +47,23 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
 	}
 	
 	override getConstructorParameters() {
-		val SulNode = oracle.getIncoming(SulEdge).head.sourceElement
+		val SulNode = getIncoming(SulEdge).head.sourceElement
 		return #[SulNode]
 	}
+	
+	 def <T extends Edge> getIncoming(Class<T> clazz) {
+        if (node.isChildOfAComplexNode) {
+        	val successors = node.getIncoming(clazz)
+        	if (successors.empty) {
+            	val container = node.container as Container
+            	return container.getIncoming(clazz)
+        	} else {
+        		return successors
+        	}
+        } else {
+            return node.getIncoming(clazz)
+        }
+    }
 	
 	override learnLibArtifacts() {
 		 #["learnlib-membership-oracles","learnlib-drivers-simulator"]

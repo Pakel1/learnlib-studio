@@ -33,6 +33,7 @@ import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 import de.learnlib.studio.experiment.experiment.ParallelOracle
 import de.learnlib.studio.experiment.experiment.SuperOracle
 import de.learnlib.studio.experiment.experiment.CacheFilter
+import de.learnlib.studio.experiment.experiment.QSRCounterFilter
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -132,6 +133,9 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « val eiProviders = getCurrentExperimentRuntimeInformationProvider() »
         « val miProviders = getMealyInformationProviders() »
         package « package »;
+        import org.checkerframework.checker.nullness.qual.NonNull;
+        import de.learnlib.api.oracle.MembershipOracle;
+        import de.learnlib.filter.statistic.oracle.CounterQueryOracle;
         
         « importsTemplate(oiProviders, miProviders) »
         
@@ -180,13 +184,14 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             
             @Override
             public void dispose() {
-                « FOR o : oiProviders.filter[o | o.node instanceof QueryCounterFilter] »
+                « FOR o : oiProviders.filter[o | o.node instanceof QueryCounterFilter || o.node instanceof QSRCounterFilter] »
                     ((«o.className») « o.name  »).dispose();
                 « ENDFOR »
                 « FOR o : oiProviders.filter[o | o.node instanceof SULMembershipOracle] »
                     ((«o.className») « o.name  »).dispose();
                 « ENDFOR »
-            }
+                       
+                      }
             
         }
         
@@ -219,7 +224,6 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « ENDFOR »
     '''
 
-	//TODO: ExperimentSymbol & Oracle seperation
     def oracleDefinitionTemplate(List<OracleInformationProvider<? extends Node>> oiProviders) '''
         // Define the Oracles & Filters
         « FOR p : oiProviders »
