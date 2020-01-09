@@ -53,7 +53,7 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
 	}
 	
 	override learnLibArtifacts() {
-		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism"]
+		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism","learnlib-statistics"]
 	}
 	
 	private def getPoolPolicyasConstructorParameter(){
@@ -78,10 +78,12 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     package « package »;
     
   	 import de.learnlib.api.oracle.MembershipOracle;
+  	 import de.learnlib.filter.statistic.oracle.CounterQueryOracle;
   	 import de.learnlib.oracle.parallelism.StaticParallelOracle;
   	 import net.automatalib.words.Alphabet;
   	 import java.util.ArrayList;
   	 import java.util.Arrays;
+  	 import java.util.List;
     			       	        
     public class « className » implements ExperimentOracle {
     	
@@ -115,6 +117,27 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     			Arrays.asList(pOracles).forEach(o -> out.add(o.getOracle()));
     			return out;
     		}
+    		
+    	public void dispose(){
+    				long symbolCount = 0;
+    				long resetCount = 0;
+    				long queryCount = 0;
+    				StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
+    				List<MembershipOracle> list = Arrays.asList(oracle.oracles);
+    				for( MembershipOracle o : list){
+    					if(o.getClass().equals(CounterQueryOracle.class)) {
+    						CounterQueryOracle temp = (CounterQueryOracle) o;
+    						symbolCount += temp.getSymbolCount();
+    						resetCount += temp.getResetCount();
+    						queryCount += temp.getQueryCount();
+    					}
+    				}
+    				System.out.println("Totalized Counts from Parallel Oracle:");
+    				System.out.println("Symbol Counter " + ": " + symbolCount);
+    				System.out.println("Reset Counter " + ": " + resetCount);
+    				System.out.println("Query Counter " + ": " + queryCount);
+    		}
+    	
     }
     		
     '''

@@ -190,6 +190,9 @@ class ExperimentTemplate extends AbstractSourceTemplate {
                 « FOR o : oiProviders.filter[o | o.node instanceof SULMembershipOracle] »
                     ((«o.className») « o.name  »).dispose();
                 « ENDFOR »
+                 « FOR o : oiProviders.filter[o | o.node instanceof ParallelOracle] »
+                    ((«o.className») « o.name  »).dispose();
+                 « ENDFOR »
                        
                       }
             
