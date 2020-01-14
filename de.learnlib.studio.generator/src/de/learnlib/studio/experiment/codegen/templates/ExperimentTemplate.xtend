@@ -133,9 +133,6 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « val eiProviders = getCurrentExperimentRuntimeInformationProvider() »
         « val miProviders = getMealyInformationProviders() »
         package « package »;
-        import org.checkerframework.checker.nullness.qual.NonNull;
-        import de.learnlib.api.oracle.MembershipOracle;
-        import de.learnlib.filter.statistic.oracle.CounterQueryOracle;
         
         « importsTemplate(oiProviders, miProviders) »
         
