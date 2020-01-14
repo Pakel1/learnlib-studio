@@ -98,9 +98,10 @@ graphModel Experiment {
     	attr EInt as minBatchSize := "5" 
     }
     
-    @style(mealySulNode,"Mealy SUL")
+    @style(mealySulNode,"${name}")
     node MealySul extends NonComplexSUL {
     	prime mealy::Mealy as mealyReference
+ 		attr EString as name := "Please enter name!"
     }
     
     @style(mealySulNode,"Multiple SUL")

@@ -79,7 +79,6 @@ class MealyGenerator
         
         import « reference(ExperimentDataTemplate) »;
         
-        
         public final class « className » implements ExperimentMealy {
             
             private Alphabet alphabet;

@@ -34,6 +34,7 @@ import de.learnlib.studio.experiment.experiment.ParallelOracle
 import de.learnlib.studio.experiment.experiment.SuperOracle
 import de.learnlib.studio.experiment.experiment.CacheFilter
 import de.learnlib.studio.experiment.experiment.QSRCounterFilter
+import de.learnlib.studio.experiment.experiment.SUL
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -87,11 +88,25 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     }
     
     private def getMealyInformationProviders(){
-    	val mealys = currentConfiguration.nodes.filter[x | x instanceof MealySul]
+    	val mealys = currentConfiguration.nodes.filter[x | x instanceof SUL]
+    	System.out.println(mealys.head.isComplexNode)
     	val result = <MealyInformationProvider<? extends Node>> newLinkedList()
-    	for (m : mealys) {
-    		result += context.getProvider(m, MealyInformationProvider)
+    	for (currentNode : mealys) {
+    		 if (currentNode.isComplexNode) {	            
+	            val realCurrentNode = currentConfiguration.getNode(currentNode as Container)
+	            
+	            val nodeChain = newLinkedList(realCurrentNode)
+	            while (!nodeChain.last.successors.nullOrEmpty) {
+	            	nodeChain += nodeChain.last.successors
+	            }
+	            
+	            nodeChain.reverse.forEach[n |result += context.getProvider(n, MealyInformationProvider)]
+            } else {
+            	result += context.getProvider(currentNode, MealyInformationProvider)
+            }
+    		
     	}
+    	System.out.println(result.length)
     	return result
     }
     
