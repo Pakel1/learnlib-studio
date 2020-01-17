@@ -42,6 +42,28 @@ graphModel Experiment {
     	Cached
     }
     
+    enum LeafSplitter {
+    	DefaultSplitter
+    	ExtendParent
+    }
+    
+    enum ADTExtender {
+    	ExtendBestEffort
+    	Nop
+    }
+    
+    enum SubtreeReplacer {
+    	NeverReplace
+    	LeveledBestEffort
+    	LeveledMinLength
+    	LeveledMinSize
+    	ExhaustiveBestEffort
+    	ExhaustiveMinLength
+    	ExhaustiveMinSize
+    	SingleBestEffort
+    	SingleMinLength
+    	SingleMinSize
+    }
     
     enum AcexAnalyzer {
         LinearBackward
@@ -50,6 +72,11 @@ graphModel Experiment {
         BinarySearchForward
         ExponentialBackward
         ExponentialForward
+    }
+    
+    enum useOberservationTrees{
+    	true
+    	false
     }
     
     @label("name")

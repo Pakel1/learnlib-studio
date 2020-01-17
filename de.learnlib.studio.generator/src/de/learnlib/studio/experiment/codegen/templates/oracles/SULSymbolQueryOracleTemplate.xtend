@@ -66,7 +66,7 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
     }
 	
 	override learnLibArtifacts() {
-		 #["learnlib-membership-oracles","learnlib-drivers-simulator"]
+		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-statistics", "learnlib-parallelism"]
 	}
 	
 
