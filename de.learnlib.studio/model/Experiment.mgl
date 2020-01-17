@@ -74,7 +74,7 @@ graphModel Experiment {
         ExponentialForward
     }
     
-    enum useOberservationTrees{
+    enum UseObservationTrees{
     	true
     	false
     }
@@ -266,6 +266,10 @@ graphModel Experiment {
     @icon("icons/experiment/palette/cpu.png")
     @style(learnerNode, "ADT")
     node ADTAlgorithm extends NonComplexLearner {
+    	attr LeafSplitter as leafSplitter := DefaultSplitter
+    	attr ADTExtender as adtExtender := ExtendBestEffort
+    	attr SubtreeReplacer as subtreeReplacer := SingleBestEffort
+    	attr UseObservationTrees as useObservationTrees := true
     }
     
     @palette("Learner")
