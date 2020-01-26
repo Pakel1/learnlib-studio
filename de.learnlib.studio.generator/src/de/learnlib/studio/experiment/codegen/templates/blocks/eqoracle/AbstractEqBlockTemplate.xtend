@@ -38,8 +38,8 @@ abstract class AbstractEqBlockTemplate<N extends EQOracle>
     }
     
     
-    val String learnLibParentClass
-    val String learnLibClass
+    protected val String learnLibParentClass
+    protected val String learnLibClass
     
     new(GeneratorContext context, String name, String learnLibParentClass, String learnLibClass) {
         super(context, "blocks.eqoracles", name + "EqOracle")
@@ -168,13 +168,13 @@ abstract class AbstractEqBlockTemplate<N extends EQOracle>
         }
     '''
     
-    private def parameterValue(Parameter<?> parameter) {
+    protected def parameterValue(Parameter<?> parameter) {
         switch (parameter) {
             ExposedParameter: parameter.name
             StaticParameter:  parameter.value
         }
     }
     
-    private def getConstructorParameterList() '''
+    protected def getConstructorParameterList() '''
         « FOR p : additionalParameters.filter(ExposedParameter) », « p.dataType.name » « p.name »« ENDFOR »'''
 }
