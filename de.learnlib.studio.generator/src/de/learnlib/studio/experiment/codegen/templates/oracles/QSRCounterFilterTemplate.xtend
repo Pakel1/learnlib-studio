@@ -74,9 +74,9 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
      import net.automatalib.words.Alphabet;  
       import « reference(ResultWriterTemplate) »;
       
-      public class « className » implements ExperimentOracle {
+      public class « className » implements ExperimentSymbolOracle {
       	
-        private ExperimentOracle delegate;
+        private ExperimentSymbolOracle delegate;
         private CounterQueryOracle oracle;
                   
         private long prevSymbolSum;
@@ -85,10 +85,10 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         private int  stepCount;
         private String name;
       	
-      	public « className»(ExperimentOracle delegate) {
+      	public « className»(ExperimentSymbolOracle delegate) {
       		this.name = "QSRCounter";
       		this.delegate = delegate;
-      		this.oracle = new CounterQueryOracle((de.learnlib.api.oracle.SymbolQueryOracle)delegate.getOracle());
+      		this.oracle = new CounterQueryOracle(delegate.getOracle());
       		this.prevSymbolSum = 0;
       		this.prevResetSum = 0;
       		this.prevQuerySum = 0;
@@ -99,7 +99,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
             return delegate.getAlphabet();
         }
         
-        public MembershipOracle getOracle(){
+        public SymbolQueryOracle getOracle(){
         	return oracle;
         }
         

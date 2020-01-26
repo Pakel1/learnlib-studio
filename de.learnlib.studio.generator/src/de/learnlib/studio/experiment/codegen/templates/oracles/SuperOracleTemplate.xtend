@@ -27,7 +27,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	}
 	
 	new(GeneratorContext context, SuperOracle node, int i) {
-        super(context, "oracles", "SuperOracle")
+        super(context, "oracles", "LLS_SuperOracle")
         this.node = node
         this.i       = i
 	}
@@ -89,7 +89,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	     	
 	    @Override		            
 	         public de.learnlib.api.oracle.SymbolQueryOracle getOracle() {
-	         	return new de.learnlib.oracle.parallelism.SuperOracle
+	         	return new SuperOracle
 	         	((de.learnlib.api.oracle.SymbolQueryOracle) sOracle.getOracle(),(StaticParallelOracle)pOracle.getOracle());
 	         }
 	     			            

@@ -131,7 +131,17 @@ graphModel Experiment {
  		attr EString as name := "Please enter name!"
     }
     
+   @style(mealySulNode,"${name}")
+   @palette("SUL")
+    node RandomMealySUL extends NonComplexSUL {
+ 		attr EString as name := "Please enter name!"
+ 		attr EInt as numberStates := "10"
+ 		attr EString as inputs := "Seperate inputs with -> , <-"
+ 		attr EString as outputs := "Seperate outputs with -> , <-"
+    }
+    
     @style(mealySulNode,"Multiple SUL")
+    @palette("SUL")
     container MultipleSUL extends SUL {
     	containableElements(NonComplexSUL)
     }
@@ -296,6 +306,14 @@ graphModel Experiment {
         attr EInt as minLength := "5"
         attr EInt as maxLength := "10"
     }
+    
+    @palette("EQ Oracle")
+    @icon("icons/experiment/palette/user-check.png")
+    @style(eqOracleNode, "Mealy Simulator EQ Oracle")
+    node MealySimulatorEQOracle extends NonComplexEQOracle {
+    	incomingEdges (SulEdge[1,1])
+    }
+    
     
     @palette("EQ Oracle")
     @icon("icons/experiment/palette/user-check.png")

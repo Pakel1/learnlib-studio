@@ -245,7 +245,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         « IF p.node instanceof SULSymbolQueryOracle ||
         	 p.node instanceof SymbolCacheFilter ||
         	 p.node instanceof SymbolCounterFilter ||
-        	 p.node instanceof SuperOracle »
+        	 p.node instanceof SuperOracle ||
+        	 p.node instanceof QSRCounterFilter »
             private ExperimentSymbolOracle « p.name »;
         « ELSE»
         	private ExperimentOracle « p.name »;
