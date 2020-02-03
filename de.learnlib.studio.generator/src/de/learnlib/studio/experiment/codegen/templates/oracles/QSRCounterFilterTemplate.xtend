@@ -26,7 +26,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
     }
 
     new(GeneratorContext context, QSRCounterFilter filter, int i) {
-        super(context, "oracles", "QSRCounter")
+        super(context, "oracles", "QSRCounter" + i )
         this.filter  = filter
         this.i       = i
 	}
@@ -59,7 +59,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
     }
     
     override getName() {
-        return "counter" + i
+        return "QSRCounter" + i
     }
 
     override getNode() {
@@ -69,6 +69,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
     override template()'''
     package « package »;
     
+     import de.learnlib.api.oracle.SymbolQueryOracle;
      import de.learnlib.api.oracle.MembershipOracle;
      import de.learnlib.filter.statistic.oracle.CounterQueryOracle;
      import net.automatalib.words.Alphabet;  
@@ -86,7 +87,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         private String name;
       	
       	public « className»(ExperimentSymbolOracle delegate) {
-      		this.name = "QSRCounter";
+      		this.name = "« className »"; 
       		this.delegate = delegate;
       		this.oracle = new CounterQueryOracle(delegate.getOracle());
       		this.prevSymbolSum = 0;
@@ -104,39 +105,31 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         }
         
         @Override
-        	 public void postBlock() {
-        	     long realSymbolCount = oracle.getSymbolCount() - prevSymbolSum;
-        	     long realResetCount = oracle.getResetCount() - prevResetSum;
-        	     long realQueryCount = oracle.getQueryCount() - prevQuerySum;
-        	                 
-        	                 System.out.println("Symbol Counter " + ": " + realSymbolCount);
-        	                 System.out.println("Reset Counter " + ": " + realResetCount);
-        	                  System.out.println("Query Counter " + ": " + realQueryCount);
-        	                 try {
-        	                     ResultWriter.writeData(this.name, this.stepCount, Long.toString(realSymbolCount));
-        	                     ResultWriter.writeData(this.name, this.stepCount, Long.toString(realResetCount));
-        	                     ResultWriter.writeData(this.name, this.stepCount, Long.toString(realQueryCount));
-        	                     
-        	                 } catch(Exception e) {
-        	                     e.printStackTrace();
-        	                 }
-        	                 
-        	                 prevSymbolSum = oracle.getSymbolCount();
-        	                 prevResetSum = oracle.getResetCount();
-        	                 prevQuerySum = oracle.getQueryCount();
-        	                 stepCount++;
-        	             }
+       	 public void postBlock() {}
         	 
         	             
         	             public void dispose() {
         	                 System.out.println("Symbol Counter " +  "(sum): " + oracle.getSymbolCount());
         	                    	                 System.out.println("Reset Counter " +  "(sum): " + oracle.getResetCount());
         	                    	                 System.out.println("Query Counter " +  "(sum): " + oracle.getQueryCount());
-        	                						 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getSymbolCount()));
-        	                						 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getResetCount()));
-        	                    	                 ResultWriter.writeData(this.name, "sum", Long.toString(oracle.getQueryCount()));
+        	                						 ResultWriter.writeData(this.name, "Symbols", Long.toString(oracle.getSymbolCount()));
+        	                						 ResultWriter.writeData(this.name, "Resets", Long.toString(oracle.getResetCount()));
+        	                    	                 ResultWriter.writeData(this.name, "Queries", Long.toString(oracle.getQueryCount()));
         	                    	                 delegate = null;
         	             }
+        	             
+        public String getCounts(){
+        	StringBuffer out = new StringBuffer();
+        	    	out.append(oracle.getSymbolCount());
+        	    	out.append(";");
+        	        out.append(oracle.getResetCount());
+        	        out.append(";");
+        	        out.append(oracle.getSymbolCount());
+        	        out.append(";");
+        	        out.append(oracle.getResetCount());
+        	        out.append(";");
+        	    	return out.toString();
+        }
         	             
         
      }

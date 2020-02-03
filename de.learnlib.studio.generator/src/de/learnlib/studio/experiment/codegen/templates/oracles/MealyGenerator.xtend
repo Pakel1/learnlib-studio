@@ -118,4 +118,17 @@ class MealyGenerator
         }
         
     '''
+				
+		override numberOfStates() {
+			return model.mealyStates.length
+		}
+		
+		override inputLength() {
+			return 0
+		}
+		
+		override outputLength() {
+			return 0
+		}
+				
 }

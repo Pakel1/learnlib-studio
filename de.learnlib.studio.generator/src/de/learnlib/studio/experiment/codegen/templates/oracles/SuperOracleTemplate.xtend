@@ -69,6 +69,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	package « package »;
 	
 	import de.learnlib.api.oracle.MembershipOracle;
+	import de.learnlib.oracle.parallelism.SuperOracle;
 	import de.learnlib.oracle.parallelism.StaticParallelOracle;
 	import net.automatalib.words.Alphabet;
 		

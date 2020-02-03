@@ -35,6 +35,15 @@ import de.learnlib.studio.experiment.experiment.SuperOracle
 import de.learnlib.studio.experiment.experiment.CacheFilter
 import de.learnlib.studio.experiment.experiment.QSRCounterFilter
 import de.learnlib.studio.experiment.experiment.SUL
+import de.learnlib.studio.experiment.experiment.Learner
+import de.learnlib.studio.experiment.experiment.EQOracle
+import de.learnlib.studio.experiment.experiment.LStarAlgorithm
+import de.learnlib.studio.experiment.experiment.KVAlgorithm
+import de.learnlib.studio.experiment.experiment.DTAlgorithm
+import de.learnlib.studio.experiment.experiment.TTTAlgorithm
+import de.learnlib.studio.experiment.experiment.ADTAlgorithm
+import de.learnlib.studio.experiment.experiment.DHCAlgorithm
+import de.learnlib.studio.experiment.experiment.RandomMealySUL
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -151,6 +160,9 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         
         « importsTemplate(oiProviders, miProviders) »
         
+        « val ePath = context.modelPackage + ".util.EvaluationWriter"  »
+                	        import «  ePath »;
+        
         
         public class « className » extends AbstractExperiment {
         	
@@ -159,6 +171,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             « oracleDefinitionTemplate(oiProviders) »
             
             « blockDefinitionTemplate() »
+            
+             private long startTime;
             
             
             
@@ -179,12 +193,30 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             }
             
             @Override
-            public String getConfigurationAsString() {
-            	return "« FOR o : oiProviders SEPARATOR ", "»« o.className »« ENDFOR», « FOR e : eiProviders SEPARATOR ", "»« e.className »(« getConstructorParameterList(e).replace('"', '\'') »)« ENDFOR»";
+            public String getAlgorithmInformationAsString(){
+            	return "«writeAlgorithmInformation(eiProviders.filter[e | e.node instanceof Learner].head)»";
             }
             
             @Override
+            public String getEqOracleInformationAsString() {
+            	return "« FOR ei : eiProviders.filter[e | e.node instanceof EQOracle] SEPARATOR ", "»« ei.className »« ENDFOR»";
+            }
+            
+            @Override
+            public String getCounterInformationAsString() {
+            	return "«FOR oi: oracleInformationProviders.filter[o | o.node instanceof QSRCounterFilter ] SEPARATOR ";"»SC_«oi.className»;QRC_«oi.className»«ENDFOR »;" + 
+            	"SC_Total;QRC_Total"; }
+                        
+            @Override
+            public String getSulInformationAsString() {
+            	return "«writeSulInformation(miProviders.head)»";
+            }
+            
+            
+            
+            @Override
             public void setUp() {
+            	startTime = System.currentTimeMillis();
                 « IF i != -1 »
                     System.setProperty("« context.modelName ».currentConfiguration", "« i »");
                 « ENDIF »
@@ -202,15 +234,102 @@ class ExperimentTemplate extends AbstractSourceTemplate {
                 « FOR o : oiProviders.filter[o | o.node instanceof SULMembershipOracle] »
                     ((«o.className») « o.name  »).dispose();
                 « ENDFOR »
-                 « FOR o : oiProviders.filter[o | o.node instanceof ParallelOracle] »
-                    ((«o.className») « o.name  »).dispose();
-                 « ENDFOR »
-                       
+                 writeEvaluationData();
                       }
+                      
+            public void writeEvaluationData(){
             
+                             long time = System.currentTimeMillis() - startTime;
+                             EvaluationWriter.writeConfigurationData(getAlgorithmInformationAsString(),getEqOracleInformationAsString(),getSulInformationAsString(),
+                             « val oracles = oiProviders.filter[n| n.node instanceof ParallelOracle]»
+                               				«IF(oracles.size != 0) »
+                               					((ParallelOracle)parallelOracle).getCounts()
+                               				«ENDIF»
+                               				«IF(oracles.size == 0)»
+                               « val counter = oiProviders.filter[n| n.node instanceof QSRCounterFilter].get(0)»
+                                      ((«counter.className») « counter.name  »).getCounts()
+                                     «ENDIF»
+                                     , time );
+                         }
         }
         
     '''
+	
+	
+	def writeSulInformation(MealyInformationProvider<? extends Node> provider) {
+		return provider.className + "(" + provider.numberOfStates + "," + provider.inputLength + "," + provider.outputLength + ")"
+	}
+	
+	
+	
+	
+	
+	def writeAlgorithmInformation(ExperimentRuntimeInformationProvider learner) {
+		val firstLetter = learner.node.nodeName.toString.substring(0,1)
+		val out = switch(firstLetter){
+			case "l": 	"L*"
+			case "k":	"KV"
+			case "d":	findCorrect(learner)
+			case "t":	writeTTTInformation(learner.node)
+			case "a":	writeADTInformation(learner.node)
+		}
+		return out
+	}
+	
+	def findCorrect(ExperimentRuntimeInformationProvider provider) {
+		val secondLetter = provider.node.nodeName.toString.substring(1,2)
+		if(secondLetter.equals("t")) return "DT"
+		return "DHC"
+	}
+	
+	def writeADTInformation(Node node) {
+		val adtNode = node as ADTAlgorithm
+		
+		val leafSplitterName = switch (adtNode.leafSplitter){
+    		case DEFAULT_SPLITTER:	"DS"
+    		case EXTEND_PARENT : 	"EP"
+    	}
+    	
+    	val adtExtenderName = switch(adtNode.adtExtender){
+    		case EXTEND_BEST_EFFORT : 	"EBE"
+    		case NOP				:	"N"				
+    	}
+    	
+    	
+    	val replacerName = switch(adtNode.subtreeReplacer){
+    		case NEVER_REPLACE:				"NR"	
+    		case LEVELED_BEST_EFFORT:		"LBE"
+    		case LEVELED_MIN_LENGTH:		"LML"
+    		case LEVELED_MIN_SIZE:			"LMS"
+    		case EXHAUSTIVE_BEST_EFFORT:	"EBE"	
+    		case EXHAUSTIVE_MIN_LENGTH:		"EML"
+    		case EXHAUSTIVE_MIN_SIZE:		"EMS"
+    		case SINGLE_BEST_EFFORT:		"SBE"
+    		case SINGLE_MIN_LENGTH:			"SML"
+    		case SINGLE_MIN_SIZE:			"SMS"
+    	}
+    	
+    	val useObservationTrees = switch(adtNode.useObservationTrees){
+    		case TRUE:	"T"
+    		case FALSE:	"F"
+    	}
+    	
+    	return "ADT(" + leafSplitterName + "," + adtExtenderName + "," + replacerName + "," + useObservationTrees + ")"
+	}
+	
+	def writeTTTInformation(Node node) {
+		val tttNode = node as TTTAlgorithm
+		val analyzerName = switch (tttNode.acexAnalyzer) {
+	        case LINEAR_FORWARD:         "L_FWD"
+	        case LINEAR_BACKWARD:        "L_BWD"
+	        case BINARY_SEARCH_BACKWARD: "B_S_BWD"
+	        case BINARY_SEARCH_FORWARD:  "B_S_FWD"
+	        case EXPONENTIAL_BACKWARD:   "E_BWD"
+	        case EXPONENTIAL_FORWARD:    "E_FWD"
+	    }
+	    
+	    return "TTT(" + analyzerName + ")"
+	}
 
     def importsTemplate(List<OracleInformationProvider<? extends Node>> oiProviders, List<MealyInformationProvider<? extends Node >> miProviders) '''
         import « reference(ExperimentOracleInterfaceTemplate) »;

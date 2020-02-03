@@ -138,5 +138,18 @@ class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeT
 		System.out.println("SIZE" + out.size)
 		return out
 	}
+	
+	override numberOfStates() {
+		return node.numberStates
+	}
+	
+	
+	override outputLength(){
+		return prepareOutputs(node.outputs).size
+	}
+	
+	override inputLength() {
+		return prepareInputs(node.inputs).size
+	}
 		
 }			

@@ -53,7 +53,7 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
 	}
 	
 	override learnLibArtifacts() {
-		 #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism","learnlib-statistics"]
+		return #["learnlib-membership-oracles","learnlib-drivers-simulator", "learnlib-parallelism","learnlib-statistics"]
 	}
 	
 	private def getPoolPolicyasConstructorParameter(){
@@ -136,6 +136,31 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     				System.out.println("Symbol Counter " + ": " + symbolCount);
     				System.out.println("Reset Counter " + ": " + resetCount);
     				System.out.println("Query Counter " + ": " + queryCount);
+    		}
+    		
+    	public String getCounts() {
+    			StringBuffer out = new StringBuffer();
+    			long symbolCount = 0;
+    			long resetCount = 0;
+    			long queryCount = 0;
+    			StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
+    			List<MembershipOracle> list = Arrays.asList(oracle.oracles);
+    			for( MembershipOracle o : list){
+    				if(o.getClass().equals(CounterQueryOracle.class)) {
+    					CounterQueryOracle temp = (CounterQueryOracle) o;
+    					symbolCount += temp.getSymbolCount();
+    					resetCount += temp.getResetCount();
+    					queryCount += temp.getQueryCount();
+    					out.append(temp.getSymbolCount());
+    					out.append(";");
+    					out.append(temp.getResetCount());
+    					out.append(";");
+    				}
+    			}
+    			out.append(symbolCount);
+    			out.append(";");
+    			out.append(resetCount);
+    			return out.toString();
     		}
     	
     }

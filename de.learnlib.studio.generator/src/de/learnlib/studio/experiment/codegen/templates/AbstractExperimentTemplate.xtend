@@ -52,7 +52,13 @@ class AbstractExperimentTemplate extends AbstractSourceTemplate {
                 }
             }
             
-            public abstract String getConfigurationAsString();
+            public abstract String getAlgorithmInformationAsString();
+            
+            public abstract String getSulInformationAsString();
+            
+            public abstract String getEqOracleInformationAsString();
+            
+            public abstract String getCounterInformationAsString();
             
             public void executeAll() {
                 long startTime = System.nanoTime();

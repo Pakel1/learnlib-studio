@@ -21,6 +21,10 @@ class MainTemplate extends AbstractSourceTemplate {
         import java.text.DateFormat;
         import java.text.SimpleDateFormat;
         
+        
+        	« val ePath = context.modelPackage + ".util.EvaluationWriter"  »
+        	        import «  ePath »;
+        
         import « reference(CommandLineOptionsTemplate) »;
         import « reference(CommandLineOptionsHandlerTemplate) »;
         import « reference(ExperimentDataTemplate) »;
@@ -75,14 +79,15 @@ class MainTemplate extends AbstractSourceTemplate {
         	
         	private static void printConfigurationsList(List<AbstractExperiment> experiments) {
         		for (int i = 0; i < experiments.size(); i++) {
-                    AbstractExperiment experiment = experiments.get(i);
-                    System.out.println("Configuration " + (i + 1) + ": " + experiment.getConfigurationAsString());
+                    
                 }
         	}
         	
         	private static void runAllExperiments(List<AbstractExperiment> experiments) {
+        		 AbstractExperiment first = experiments.get(0);
+        		        EvaluationWriter.writeHeader(first.getCounterInformationAsString());
         		for (AbstractExperiment experiment : experiments) {
-                    System.out.println(" --- " + experiment.getConfigurationAsString() + " ---");
+                    
                     if (CommandLineOptions.RESUME.isSet()) {
                         String fileName = System.getProperty(CommandLineOptions.RESUME.getSystemProperty());
                         ExperimentDataDeserializer deserializer = new ExperimentDataDeserializer();

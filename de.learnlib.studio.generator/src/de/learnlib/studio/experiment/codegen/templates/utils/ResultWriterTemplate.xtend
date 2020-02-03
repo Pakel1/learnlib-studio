@@ -33,6 +33,55 @@ class ResultWriterTemplate extends AbstractSourceTemplate {
             public static void writeData(String dataId, int step, String value) {
                 writeData(dataId, Integer.toString(step), value);
             }
+
+		public static void writeSettingData(String dataId, String value) {
+        writeSettingData(dataId, "", value);
+   		 }
+
+    public static void writeSettingData(String dataId, String step, String value){
+        try {
+            // Get the file
+            String resultDir = System.getProperty(CommandLineOptions.SELECT_OUPUT_DIR.getSystemProperty());
+            Path resultDirPath = FileSystems.getDefault().getPath(resultDir);
+
+            if (!Files.exists(resultDirPath)) {
+                Files.createDirectories(resultDirPath);
+            }
+
+            final String fileBaseName = "« context.modelName »";
+            System.out.println("File Base Name: " + fileBaseName);
+            final String experimentStartTime = System.getProperty("EXPERIMENT_START_TIME");
+            String newFileName = fileBaseName + "-" + experimentStartTime + ".csv";
+
+            Path targetFile = resultDirPath.resolve(newFileName);
+
+
+            // Print the information
+            if (!Files.exists(targetFile)) {
+                writeData(targetFile, "Configuration; DataID; Further Information; Value");
+            }
+
+            String currentConfiguration = System.getProperty("« context.modelName ».currentConfiguration");
+            int currentC = 1;
+            if (currentConfiguration != null) {
+                currentC = Integer.parseInt(currentConfiguration);
+                currentC++;
+            }
+            StringBuffer outputLine = new StringBuffer();
+            outputLine.append(currentC);
+            outputLine.append("; ");
+            outputLine.append(dataId);
+            outputLine.append("; ");
+            outputLine.append(step);
+            outputLine.append("; ");
+            outputLine.append(value);
+
+            writeData(targetFile, outputLine.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }            
+            
             
             public static void writeData(String dataId, String step, String value) {
                 try {
@@ -54,7 +103,7 @@ class ResultWriterTemplate extends AbstractSourceTemplate {
                     
                     // Print the information
                     if (!Files.exists(targetFile)) {
-                        writeData(targetFile, "Configuration, DataID, Step, Value");
+                        writeData(targetFile, "Configuration; DataID; Further Information; Value");
                     }
                     
                     String currentConfiguration = System.getProperty("« context.modelName ».currentConfiguration");
@@ -64,11 +113,11 @@ class ResultWriterTemplate extends AbstractSourceTemplate {
                     
                     StringBuffer outputLine = new StringBuffer();
                     outputLine.append(currentConfiguration);
-                    outputLine.append(", ");
+                    outputLine.append("; ");
                     outputLine.append(dataId);
-                    outputLine.append(", ");
+                    outputLine.append("; ");
                     outputLine.append(step);
-                    outputLine.append(", ");
+                    outputLine.append("; ");
                     outputLine.append(value);
                     
                     writeData(targetFile, outputLine.toString());

@@ -29,7 +29,7 @@ LearnLibArtifactProvider<SULSymbolQueryOracle>  {
 	}
 	
 	new(GeneratorContext context, SULSymbolQueryOracle oracle, int i) {
-        super(context, "oracles", "SymbolQueryOracle")
+        super(context, "oracles", "LLS_SymbolQueryOracle")
         this.oracle = oracle
         this.i       = i
 	}
