@@ -136,6 +136,7 @@ graphModel Experiment {
     node RandomMealySUL extends NonComplexSUL {
  		attr EString as name := "Please enter name!"
  		attr EInt as numberStates := "10"
+ 		attr EInt as randomSeed := "42"
  		attr EString as inputs := "Seperate inputs with -> , <-"
  		attr EString as outputs := "Seperate outputs with -> , <-"
     }
