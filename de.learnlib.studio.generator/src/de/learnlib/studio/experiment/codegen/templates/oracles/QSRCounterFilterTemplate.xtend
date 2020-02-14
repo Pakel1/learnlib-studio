@@ -127,7 +127,6 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         	        out.append(oracle.getSymbolCount());
         	        out.append(";");
         	        out.append(oracle.getResetCount());
-        	        out.append(";");
         	    	return out.toString();
         }
         	             

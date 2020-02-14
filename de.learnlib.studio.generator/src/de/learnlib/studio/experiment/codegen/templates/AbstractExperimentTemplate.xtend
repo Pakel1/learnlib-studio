@@ -61,7 +61,7 @@ class AbstractExperimentTemplate extends AbstractSourceTemplate {
             public abstract String getCounterInformationAsString();
             
             public void executeAll() {
-                long startTime = System.nanoTime();
+                long startTime = System.currentTimeMillis();
                 
                 setUp();
                 while (current != null) {
@@ -69,9 +69,7 @@ class AbstractExperimentTemplate extends AbstractSourceTemplate {
                 }
                 dispose();
                 
-                long time = System.nanoTime() - startTime;
-                System.out.println("Time elapsed (ns): " + time);
-                ResultWriter.writeData("Time", Long.toString(time));
+                long time = System.currentTimeMillis() - startTime;
             }
             
             public void executeOne() {
@@ -81,21 +79,14 @@ class AbstractExperimentTemplate extends AbstractSourceTemplate {
             }
             
             private void executeOneInternal() {
-                System.out.println();
-                System.out.println(current.startMessage());
                 
                 Block result = current.execute(data);
                 
                 String endMessage = current.endMessage();
-                if (!endMessage.isEmpty()) {
-                    System.out.println("\t" + endMessage);
-                }
-                System.out.println(" --> " + result);
                 
                 if (result != null) {
                     current = result;
                     data.setCurrentBlock(current);
-                    serializer.write(data);
                 } else {
                     current = null;
                     System.out.println();

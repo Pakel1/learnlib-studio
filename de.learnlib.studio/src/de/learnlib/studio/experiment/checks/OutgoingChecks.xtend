@@ -8,6 +8,7 @@ import de.learnlib.studio.experiment.experiment.Experiment
 import de.learnlib.studio.experiment.mcam.modules.checks.ExperimentCheck
 
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.getAllLearners
+import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.getAllSULs
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.getAllEQOralces
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.getAllFilters
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.isChildOfAComplexNode
@@ -19,7 +20,13 @@ class OutgoingChecks extends ExperimentCheck {
         checkAlgorithms(model)
         checkEQOracles(model)
         checkFilter(model)
+        checkSUL(model)
     }
+	
+	def checkSUL(Experiment experiment) {
+	 val SULs = experiment.allSULs
+	 genericOutgoingChecks(SULs,"SUL")
+	}
     
     private def checkAlgorithms(Experiment experiment) {
         val learners = experiment.allLearners

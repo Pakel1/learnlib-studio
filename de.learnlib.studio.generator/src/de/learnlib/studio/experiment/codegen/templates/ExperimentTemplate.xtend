@@ -88,7 +88,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         if(!parallelOracle.isEmpty) addNodeToResult(result, parallelOracle.get(0))
         
         val superOracle = currentConfiguration.nodes.filter[n | n instanceof SuperOracle]
-        if(!parallelOracle.isEmpty) addNodeToResult(result, superOracle.get(0))
+        if(!superOracle.isEmpty) addNodeToResult(result, superOracle.get(0))
         
        	val cache = currentConfiguration.nodes.filter[n | n instanceof CacheFilter && !done.contains(n)]
        	if(!cache.isEmpty) addNodeToResult(result, cache.get(0))
@@ -228,9 +228,6 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             
             @Override
             public void dispose() {
-                « FOR o : oiProviders.filter[o | o.node instanceof QueryCounterFilter || o.node instanceof QSRCounterFilter] »
-                    ((«o.className») « o.name  »).dispose();
-                « ENDFOR »
                 « FOR o : oiProviders.filter[o | o.node instanceof SULMembershipOracle] »
                     ((«o.className») « o.name  »).dispose();
                 « ENDFOR »

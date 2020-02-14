@@ -11,7 +11,8 @@ class DTBlockTemplate extends AbstractLearnerBlockTemplate<DTAlgorithm> {
     }
 	
 	new(GeneratorContext context, DTAlgorithm learner, int i) {
-		super(context, learner, i, "ddtLearner", "learnlib-dt", "de.learnlib.algorithms.discriminationtree.mealy", "DTLearnerMealy", "DTLearnerMealyBuilder", "de.learnlib.algorithms.lstar", "AutomatonLStarState")
+		super(context, learner, i, "dtLearner", "learnlib-discrimination-tree", "de.learnlib.algorithms.discriminationtree.mealy", "DTLearnerMealy", "DTLearnerMealyBuilder", "de.learnlib.algorithms.discriminationtree", "DTLearnerState")
 	}
 	
 }
+

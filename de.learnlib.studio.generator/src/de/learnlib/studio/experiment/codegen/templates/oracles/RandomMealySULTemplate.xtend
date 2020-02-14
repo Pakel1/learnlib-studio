@@ -56,6 +56,7 @@ class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeT
 	« val inputs = prepareInputs(node.inputs)»
 	« val outputs = prepareOutputs(node.outputs)»
 	« val numberofStates = node.numberStates »
+	« val randomSeed = node.randomSeed »
 		package « package »;
         
         import net.automatalib.words.Alphabet;
@@ -85,7 +86,7 @@ class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeT
                  «FOR String out : outputs»
                     output.add("«out»");
                  «ENDFOR»
-                mealy = RandomAutomata.randomMealy(new Random(42),«numberofStates», alphabet, output);   
+                mealy = RandomAutomata.randomMealy(new Random(«randomSeed»),«numberofStates», alphabet, output);   
             }
             
  			@Override

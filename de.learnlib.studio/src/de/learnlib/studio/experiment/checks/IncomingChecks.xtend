@@ -13,7 +13,6 @@ import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.getAllFilters
 import static extension de.learnlib.studio.experiment.utils.ExperimentExtensions.isChildOfAComplexNode
 
-
 class IncomingChecks extends ExperimentCheck {
     
     override check(Experiment model) {
@@ -22,7 +21,7 @@ class IncomingChecks extends ExperimentCheck {
         checkOracles(model)
         checkFilter(model)
     }
-    
+
     private def checkAlgorithms(Experiment experiment) {
         val learners = experiment.allLearners
         genericIncomingChecks(learners, "Learner")

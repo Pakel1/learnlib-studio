@@ -40,11 +40,8 @@ class MainTemplate extends AbstractSourceTemplate {
                 boolean parsingOk = optionsHandler.parse(args);
                 
                 if (parsingOk) {
-                    List<AbstractExperiment> experiments = createExperiments();
-                    
-                    if (CommandLineOptions.LIST.isSet()) {
-                        printConfigurationsList(experiments);
-                    } else if (CommandLineOptions.SELECT_CONFIGURATION.isSet()) {
+                     	if (CommandLineOptions.SELECT_CONFIGURATION.isSet()) {
+                     	List<AbstractExperiment> experiments = createExperiments();
                     	String configurationNoAsString = System.getProperty(CommandLineOptions.SELECT_CONFIGURATION.getSystemProperty());
                     	System.out.println("Selected Configuration No. " + configurationNoAsString);
                     	
@@ -52,9 +49,9 @@ class MainTemplate extends AbstractSourceTemplate {
                     	AbstractExperiment experiment = experiments.get(configurationNo);
                     	
                     	experiment.executeAll();
-                    } else {
-                        runAllExperiments(experiments);
-                    }
+                    	} else {
+                        	runAllExperiments();
+                    	}
                 }
             }
             
@@ -68,9 +65,8 @@ class MainTemplate extends AbstractSourceTemplate {
             
             private static List<AbstractExperiment> createExperiments() {
             	List<AbstractExperiment> experiments = new ArrayList<>(« experimentClassNames.size »);
-            	
             	« FOR experimentName : experimentClassNames SEPARATOR "\n" »
-                    « experimentName » « experimentName.toFirstLower » = new « experimentName »();
+            	«experimentName» «experimentName.toFirstLower» = new «experimentName»();
                     experiments.add(« experimentName.toFirstLower »);
                 « ENDFOR »
             	
@@ -83,27 +79,32 @@ class MainTemplate extends AbstractSourceTemplate {
                 }
         	}
         	
-        	private static void runAllExperiments(List<AbstractExperiment> experiments) {
-        		 AbstractExperiment first = experiments.get(0);
-        		        EvaluationWriter.writeHeader(first.getCounterInformationAsString());
-        		for (AbstractExperiment experiment : experiments) {
-                    
-                    if (CommandLineOptions.RESUME.isSet()) {
-                        String fileName = System.getProperty(CommandLineOptions.RESUME.getSystemProperty());
-                        ExperimentDataDeserializer deserializer = new ExperimentDataDeserializer();
-                        ExperimentData data = deserializer.read(fileName);
-                        experiment.setData(data);
-                    }
-                    
-                    if (CommandLineOptions.SINGLE_STEP.isSet()) {
-                        experiment.executeOne();
-                        System.out.println();
-                    } else {
-                        experiment.executeAll();
-                    }
-                }
+        	private static void runAllExperiments() {
+        		« val first = experimentClassNames.get(0) »
+        		« first » « first.toFirstLower » = new « first »();
+        		EvaluationWriter.writeHeader(« first.toFirstLower ».getCounterInformationAsString());
+        		«FOR experimentName : experimentClassNames»
+        		run«experimentName»();
+        		« ENDFOR »
         	}
-            
+        	« FOR experimentName : experimentClassNames »
+        	private static void run«experimentName»(){
+        		«experimentName» «experimentName.toFirstLower» = new «experimentName»();
+        		 if (CommandLineOptions.RESUME.isSet()) {
+        		 	String fileName = System.getProperty(CommandLineOptions.RESUME.getSystemProperty());
+        		 	ExperimentDataDeserializer deserializer = new ExperimentDataDeserializer();
+        		 	ExperimentData data = deserializer.read(fileName);
+        			 «experimentName.toFirstLower».setData(data);
+        		 }
+        		                    
+        		 if (CommandLineOptions.SINGLE_STEP.isSet()) {
+        		 	«experimentName.toFirstLower».executeOne();
+        		 } else {
+        		 	«experimentName.toFirstLower».executeAll();
+        		 }
+        	}	
+        	« ENDFOR »
+          
         }
         
     '''

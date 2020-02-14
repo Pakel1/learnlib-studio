@@ -15,7 +15,7 @@ class ExperimentOracleInterfaceTemplate
 	}
 	
 	override learnLibArtifacts() {
-        #["learnlib-membership-oracles", "learnlib-statistics", "learnlib-parallelism"]
+        return #["learnlib-membership-oracles", "learnlib-statistics", "learnlib-parallelism"]
     }
     
 	override template() '''

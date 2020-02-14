@@ -11,7 +11,7 @@ class KVBlockTemplate extends AbstractLearnerBlockTemplate<KVAlgorithm> {
     }
 	
 	new(GeneratorContext context, KVAlgorithm learner, int i) {
-		super(context, learner, i , "lStarLearner", "learnlib-lstar", "de.learnlib.algorithms.kv.mealy", "KearnsVaziraniMealy", "KearnsVaziraniMealyBuilder", "de.learnlib.algorithms.kv.mealy", "KearnsVaziraniMealyState")
+		super(context, learner, i , "kvLearner", "learnlib-kearns-vazirani", "de.learnlib.algorithms.kv.mealy", "KearnsVaziraniMealy", "KearnsVaziraniMealyBuilder", "de.learnlib.algorithms.kv.mealy", "KearnsVaziraniMealyState")
 	}
 	
 }

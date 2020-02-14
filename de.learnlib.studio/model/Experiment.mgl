@@ -8,6 +8,7 @@ import "platform:/resource/de.learnlib.studio/model/Symbol.mgl" as symbol
 @mcam_checkmodule("de.learnlib.studio.experiment.checks.SymbolTypeAmountCheck")
 @mcam_checkmodule("de.learnlib.studio.experiment.checks.IncomingChecks")
 @mcam_checkmodule("de.learnlib.studio.experiment.checks.OutgoingChecks")
+@mcam_checkmodule("de.learnlib.studio.experiment.checks.ADTChecks")
 //@wizard("New LearnLib Experiment", "de.learnlib.studio.wizards.experiments.ExperimentWizard")
 @postCreate("de.learnlib.studio.experiment.hooks.ExperimentPostCreateHook")
 @generatable("de.learnlib.studio.generator", "de.learnlib.studio.experiment.codegen.Generator", "/src-gen/")
@@ -170,7 +171,7 @@ graphModel Experiment {
     
     @style(symbol, "${symbolReference.name}")
     @contextMenuAction("de.learnlib.studio.experiment.hooks.OpenSymbol")
-    @doubleClickAction("de.learnlib.studio.experiment.hooks.OpenSymbol")
+    @doubleClickAction("de.learnlib.studio.experiment.hooks.OpenSymbol") 
     node SULMembershipOracleSymbol {
         prime symbol::Symbol as symbolReference
         

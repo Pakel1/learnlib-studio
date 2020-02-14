@@ -123,7 +123,7 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     				long resetCount = 0;
     				long queryCount = 0;
     				StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
-    				List<MembershipOracle> list = Arrays.asList(oracle.oracles);
+    				ArrayList<MembershipOracle> list = mOracles;
     				for( MembershipOracle o : list){
     					if(o.getClass().equals(CounterQueryOracle.class)) {
     						CounterQueryOracle temp = (CounterQueryOracle) o;
@@ -144,7 +144,7 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     			long resetCount = 0;
     			long queryCount = 0;
     			StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
-    			List<MembershipOracle> list = Arrays.asList(oracle.oracles);
+    			ArrayList<MembershipOracle> list = mOracles;
     			for( MembershipOracle o : list){
     				if(o.getClass().equals(CounterQueryOracle.class)) {
     					CounterQueryOracle temp = (CounterQueryOracle) o;

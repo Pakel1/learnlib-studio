@@ -11,7 +11,7 @@ import de.learnlib.studio.experiment.experiment.EQOracle
 import de.learnlib.studio.experiment.experiment.Oracle
 import de.learnlib.studio.experiment.experiment.Filter
 import de.learnlib.studio.experiment.experiment.SULMembershipOracle
-
+import de.learnlib.studio.experiment.experiment.SUL
 
 class ExperimentExtensions {
     
@@ -19,6 +19,12 @@ class ExperimentExtensions {
         val learners = <Learner> newLinkedList(experiment.learners)
         experiment.complexLearners.forEach[nonComplexLearners.forEach[learners.add(it)]]
         return learners
+    }
+    
+    static def getAllSULs(Experiment experiment){
+    	val SULs = <SUL> newLinkedList(experiment.SULs)
+    	experiment.multipleSULs.forEach[nonComplexSULs.forEach[SULs.add(it)]]
+    	return SULs
     }
     
     static def List<EQOracle> getAllEQOralces(Experiment experiment) {

@@ -11,7 +11,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
     }
     
     override template() '''
-        package de.learnlib.test.util;
+         package « package »;
         
         import java.io.IOException;
         import java.nio.file.FileSystems;
@@ -19,7 +19,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
         import java.nio.file.Path;
         import java.nio.file.StandardOpenOption;
         
-        import de.learnlib.test.config.CommandLineOptions;
+        import « reference(CommandLineOptionsTemplate) »;
         
         
         public class EvaluationWriter {
