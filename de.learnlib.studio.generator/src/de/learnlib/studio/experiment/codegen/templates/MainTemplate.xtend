@@ -32,7 +32,7 @@ class MainTemplate extends AbstractSourceTemplate {
         
         
         public class Main {
-            
+        	
             public static void main(String[] args) {
                 rememberStartDateTime();
                 
@@ -84,7 +84,7 @@ class MainTemplate extends AbstractSourceTemplate {
         		« first » « first.toFirstLower » = new « first »();
         		EvaluationWriter.writeHeader(« first.toFirstLower ».getCounterInformationAsString());
         		«FOR experimentName : experimentClassNames»
-        		run«experimentName»();
+        		for(int i = 0;i < «context.model.numberofIterations»;i++)run«experimentName»();
         		« ENDFOR »
         	}
         	« FOR experimentName : experimentClassNames »

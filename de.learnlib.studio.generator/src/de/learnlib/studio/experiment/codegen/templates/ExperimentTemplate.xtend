@@ -204,8 +204,10 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             
             @Override
             public String getCounterInformationAsString() {
-            	return "«FOR oi: oracleInformationProviders.filter[o | o.node instanceof QSRCounterFilter ] SEPARATOR ";"»SC_«oi.className»;QRC_«oi.className»«ENDFOR »;" + 
-            	"SC_Total;QRC_Total"; }
+            	return "«FOR oi: oracleInformationProviders.filter[o | o.node instanceof QSRCounterFilter ] SEPARATOR ";"»SC_"+ ((«oi.className»)«oi.name»).getName() + ";QRC_"+ ((«oi.className»)«oi.name»).getName() + ";BC_"+ ((«oi.className»)«oi.name»).getName() + ";ABS_"+ ((«oi.className»)«oi.name»).getName() + "«ENDFOR »;" + 
+            	«FOR oi : oracleInformationProviders.filter[o| o.node instanceof SymbolCounterFilter] SEPARATOR ";" » "SC_«oi.name»" + "RC_«oi.name»" + «ENDFOR» 
+            	«FOR oi : oracleInformationProviders.filter[o| o.node instanceof QueryCounterFilter] SEPARATOR ";" » "QC_«oi.name»" + «ENDFOR»
+            	 "SC_Total;QRC_Total"; }
                         
             @Override
             public String getSulInformationAsString() {
@@ -243,8 +245,15 @@ class ExperimentTemplate extends AbstractSourceTemplate {
                                					((ParallelOracle)parallelOracle).getCounts()
                                				«ENDIF»
                                				«IF(oracles.size == 0)»
-                               « val counter = oiProviders.filter[n| n.node instanceof QSRCounterFilter].get(0)»
+                               «FOR counter : oracleInformationProviders.filter[n| n.node instanceof QSRCounterFilter]»
                                       ((«counter.className») « counter.name  »).getCounts()
+                                «ENDFOR»
+                                «FOR counter : oracleInformationProviders.filter[n| n.node instanceof SymbolCounterFilter]»
+                                      ((«counter.className») « counter.name  »).getCounts()
+                                 «ENDFOR»
+                                «FOR counter : oracleInformationProviders.filter[n| n.node instanceof QueryCounterFilter]»
+                                   ((«counter.className») « counter.name  »).getCounts()
+                                «ENDFOR»
                                      «ENDIF»
                                      , time );
                          }
@@ -254,7 +263,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
 	
 	
 	def writeSulInformation(MealyInformationProvider<? extends Node> provider) {
-		return provider.className + "(" + provider.numberOfStates + "," + provider.inputLength + "," + provider.outputLength + ")"
+		return  provider.numberOfStates + "," + provider.inputLength + "," + provider.outputLength
 	}
 	
 	

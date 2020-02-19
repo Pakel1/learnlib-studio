@@ -88,6 +88,19 @@ class MavenTemplate extends AbstractTemplateImpl {
                         <version>${learnlib.version}</version>
                     </dependency>
                 « ENDFOR »
+                		 <dependency>
+                            <groupId>de.learnlib</groupId>
+                            <artifactId>learnlib-statistics</artifactId>
+                            <version>0.15.0-SNAPSHOT</version>
+                            <scope>compile</scope>
+                        </dependency>
+                        
+                         <dependency>
+                                                    <groupId>de.learnlib</groupId>
+                                                    <artifactId>learnlib-parallelism</artifactId>
+                                                    <version>0.15.0-SNAPSHOT</version>
+                                                    <scope>compile</scope>
+                                                </dependency>
         
                 <!-- AutomataLib dependencies -->
                 <dependency>

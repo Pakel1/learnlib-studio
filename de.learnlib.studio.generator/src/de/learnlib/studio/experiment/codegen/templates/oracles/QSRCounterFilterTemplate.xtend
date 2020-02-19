@@ -37,7 +37,7 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
     
     override getConstructorParameters() {
         val delegateNode = getOutgoing(QueryEdge).head.targetElement
-        return #[delegateNode]
+        return #[delegateNode, node.name]
     }
     
     def <T extends Edge> getOutgoing(Class<T> clazz) {
@@ -84,10 +84,10 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         private long prevResetSum;
         private long prevQuerySum;
         private int  stepCount;
-        private String name;
+        private String name = "« className »";
       	
-      	public « className»(ExperimentSymbolOracle delegate) {
-      		this.name = "« className »"; 
+      	public « className»(ExperimentSymbolOracle delegate, String name) {
+      		if(!name.equals("")) this.name=name;
       		this.delegate = delegate;
       		this.oracle = new CounterQueryOracle(delegate.getOracle());
       		this.prevSymbolSum = 0;
@@ -103,6 +103,10 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         public SymbolQueryOracle getOracle(){
         	return oracle;
         }
+        
+        public String getName(){
+        	return name;
+        	}
         
         @Override
        	 public void postBlock() {}
@@ -123,6 +127,10 @@ class QSRCounterFilterTemplate extends AbstractSourceTemplate
         	    	out.append(oracle.getSymbolCount());
         	    	out.append(";");
         	        out.append(oracle.getResetCount());
+        	        out.append(";");
+        	        out.append(oracle.getBatchCount());
+        	        out.append(";");
+        	        out.append(oracle.getAverageBatchSize());
         	        out.append(";");
         	        out.append(oracle.getSymbolCount());
         	        out.append(";");

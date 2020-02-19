@@ -133,7 +133,20 @@ OracleInformationProvider<SymbolCounterFilter>, LearnLibArtifactProvider<SymbolC
 	                 delegate = null;
 	             }
 	             
-	         }
+	        
+	         
+	          public String getCounts(){
+	                 	StringBuffer out = new StringBuffer();
+	                 	    	out.append(oracle.getSymbolCount());
+	                 	    	out.append(";");
+	                 	        out.append(oracle.getResetCount());
+	                 	        out.append(";");
+	                 	        out.append(oracle.getSymbolCount());
+	                 	        out.append(";");
+	                 	        out.append(oracle.getResetCount());
+	                 	    	return out.toString();
+	                 }
+	           }
 	'''
 		
 	

@@ -155,6 +155,10 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     					out.append(";");
     					out.append(temp.getResetCount());
     					out.append(";");
+    					out.append(temp.getBatchCount());
+    					out.append(";");
+    					out.append(temp.getAverageBatchSize());
+    					out.append(";");
     				}
     			}
     			out.append(symbolCount);

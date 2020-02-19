@@ -29,6 +29,7 @@ graphModel Experiment {
     
     attr EString as Name
     attr EString as Package
+    attr EInt as NumberofIterations := "1"
     
     enum SULMebembershipOracleSymbolType {
         GlobalSetUp
@@ -129,13 +130,13 @@ graphModel Experiment {
     @style(mealySulNode,"${name}")
     node MealySul extends NonComplexSUL {
     	prime mealy::Mealy as mealyReference
- 		attr EString as name := "Please enter name!"
+ 		attr EString as name := ""
     }
     
    @style(mealySulNode,"${name}")
    @palette("SUL")
     node RandomMealySUL extends NonComplexSUL {
- 		attr EString as name := "Please enter name!"
+ 		attr EString as name := ""
  		attr EInt as numberStates := "10"
  		attr EInt as randomSeed := "42"
  		attr EString as inputs := "Seperate inputs with -> , <-"
@@ -210,7 +211,7 @@ graphModel Experiment {
     @icon("icons/experiment/palette/filter.png")
     @style(queryCounterFilterNode, "QSR Counter Filter")
     node QSRCounterFilter extends NonComplexFilter{
-    
+    	attr EString as name := ""
     }
     
     @palette("Filter")

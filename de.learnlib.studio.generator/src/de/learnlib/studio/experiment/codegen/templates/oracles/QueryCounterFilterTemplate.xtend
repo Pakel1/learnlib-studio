@@ -132,6 +132,14 @@ class QueryCounterFilterTemplate
                 delegate = null;
             }
             
+             public String getCounts(){
+                    	StringBuffer out = new StringBuffer();
+                    	    	out.append(oracle.getCounter().getCount());
+                    	    	out.append(";");
+                    	        out.append(oracle.getCounter().getCount());
+                    	    	return out.toString();
+                    }
+            
         }
         
     '''
