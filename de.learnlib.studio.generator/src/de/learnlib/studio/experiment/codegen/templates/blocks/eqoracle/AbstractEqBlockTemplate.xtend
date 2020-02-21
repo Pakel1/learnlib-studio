@@ -67,8 +67,8 @@ abstract class AbstractEqBlockTemplate<N extends EQOracle>
     
     override getSuccessors() {
     	val wordEdgeTarget  = getOutgoing(WordEdge).head.targetElement
+    	if(getOutgoing(ModelEdge).isEmpty) return #["word" -> wordEdgeTarget]
         val modelEdgeTarget = getOutgoing(ModelEdge).head.targetElement
-        
         return #["word" -> wordEdgeTarget, "model" -> modelEdgeTarget]
     }
     

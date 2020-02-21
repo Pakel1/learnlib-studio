@@ -29,7 +29,8 @@ graphModel Experiment {
     
     attr EString as Name
     attr EString as Package
-    attr EInt as NumberofIterations := "1"
+    attr EBoolean as Benchmark := "FALSE"
+    attr EInt as Iterations := "1"
     
     enum SULMebembershipOracleSymbolType {
         GlobalSetUp
@@ -357,7 +358,8 @@ graphModel Experiment {
         incomingEdges (ModelEdge [1, *])
         outgoingEdges (ModelEdge [0, 1])
     }
-
+    
+    
     @palette("Results")
     @icon("icons/experiment/palette/save.png")
     @style(displayNode, "Show Internal Data")

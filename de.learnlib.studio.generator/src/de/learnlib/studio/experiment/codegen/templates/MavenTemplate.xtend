@@ -96,12 +96,24 @@ class MavenTemplate extends AbstractTemplateImpl {
                         </dependency>
                         
                          <dependency>
-                                                    <groupId>de.learnlib</groupId>
-                                                    <artifactId>learnlib-parallelism</artifactId>
-                                                    <version>0.15.0-SNAPSHOT</version>
-                                                    <scope>compile</scope>
-                                                </dependency>
-        
+                           <groupId>de.learnlib</groupId>
+                           <artifactId>learnlib-parallelism</artifactId>
+                           <version>0.15.0-SNAPSHOT</version>
+                           <scope>compile</scope>
+                          </dependency>
+        		<!-- dependencies for benchmarking -->
+        		 <dependency>
+        		            <groupId>org.openjdk.jmh</groupId>
+        		            <artifactId>jmh-core</artifactId>
+        		            <version>1.20</version>
+        		        </dependency>
+        		        <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-generator-annprocess -->
+        		        <dependency>
+        		            <groupId>org.openjdk.jmh</groupId>
+        		            <artifactId>jmh-generator-annprocess</artifactId>
+        		            <version>1.20</version>
+        		            <scope>provided</scope>
+        		        </dependency>
                 <!-- AutomataLib dependencies -->
                 <dependency>
                     <groupId>net.automatalib</groupId>

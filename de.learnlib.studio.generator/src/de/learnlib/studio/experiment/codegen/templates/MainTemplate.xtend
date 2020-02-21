@@ -84,7 +84,7 @@ class MainTemplate extends AbstractSourceTemplate {
         		« first » « first.toFirstLower » = new « first »();
         		EvaluationWriter.writeHeader(« first.toFirstLower ».getCounterInformationAsString());
         		«FOR experimentName : experimentClassNames»
-        		for(int i = 0;i < «context.model.numberofIterations»;i++)run«experimentName»();
+        		run«experimentName»();
         		« ENDFOR »
         	}
         	« FOR experimentName : experimentClassNames »

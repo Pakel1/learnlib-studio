@@ -39,14 +39,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
             public static void writeHeader(String counterInformation) {
         
                 try {
-                    // Get the file
-                    String resultDir = System.getProperty(CommandLineOptions.SELECT_OUPUT_DIR.getSystemProperty());
-                    Path resultDirPath = FileSystems.getDefault().getPath(resultDir);
-        
-                    if (!Files.exists(resultDirPath)) {
-                        Files.createDirectories(resultDirPath);
-                    }
-        
+                   
                     final String fileBaseName = "« context.modelName»_Evaluation";
                     System.out.println("File Base Name: " + fileBaseName);
                     final String experimentStartTime = System.getProperty("EXPERIMENT_START_TIME");
@@ -79,14 +72,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
         
             public static void writeConfigurationData(String algorithm, String EqOracle, String sul, String counts, long time) {
                 try {
-                    // Get the file
-                    String resultDir = System.getProperty(CommandLineOptions.SELECT_OUPUT_DIR.getSystemProperty());
-                    Path resultDirPath = FileSystems.getDefault().getPath(resultDir);
-        
-                    if (!Files.exists(resultDirPath)) {
-                        Files.createDirectories(resultDirPath);
-                    }
-        
+                	
                     final String fileBaseName = "« context.modelName»_Evaluation";
                     System.out.println("File Base Name: " + fileBaseName);
                     final String experimentStartTime = System.getProperty("EXPERIMENT_START_TIME");
