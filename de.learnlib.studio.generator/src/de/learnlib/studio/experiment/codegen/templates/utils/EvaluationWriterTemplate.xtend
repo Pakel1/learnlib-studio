@@ -14,10 +14,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
          package « package »;
         
         import java.io.IOException;
-        import java.nio.file.FileSystems;
-        import java.nio.file.Files;
-        import java.nio.file.Path;
-        import java.nio.file.StandardOpenOption;
+         import java.nio.file.*;
         
         import « reference(CommandLineOptionsTemplate) »;
         
@@ -45,7 +42,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
                     final String experimentStartTime = System.getProperty("EXPERIMENT_START_TIME");
                     String newFileName = fileBaseName + "-" + experimentStartTime + ".csv";
         
-                    Path targetFile = resultDirPath.resolve(newFileName);
+                    Path targetFile = Paths.get("result",newFileName);
         
                     if (Files.notExists(targetFile)) {
                         Files.createFile(targetFile);
@@ -78,7 +75,7 @@ class EvaluationWriterTemplate extends AbstractSourceTemplate {
                     final String experimentStartTime = System.getProperty("EXPERIMENT_START_TIME");
                     String newFileName = fileBaseName + "-" + experimentStartTime + ".csv";
         
-                    Path targetFile = resultDirPath.resolve(newFileName);
+                    Path targetFile = Paths.get("result",newFileName);
         
                     if (Files.notExists(targetFile)) {
                         Files.createFile(targetFile);

@@ -20,11 +20,13 @@ class MainTemplate extends AbstractSourceTemplate {
         import java.util.Date;
         import java.text.DateFormat;
         import java.text.SimpleDateFormat;
+        import java.util.concurrent.TimeUnit;
         
         
         	« val ePath = context.modelPackage + ".util.EvaluationWriter"  »
         	        import «  ePath »;
         
+        import org.openjdk.jmh.annotations.*;
         import « reference(CommandLineOptionsTemplate) »;
         import « reference(CommandLineOptionsHandlerTemplate) »;
         import « reference(ExperimentDataTemplate) »;
@@ -82,13 +84,22 @@ class MainTemplate extends AbstractSourceTemplate {
         	private static void runAllExperiments() {
         		« val first = experimentClassNames.get(0) »
         		« first » « first.toFirstLower » = new « first »();
+        	
         		EvaluationWriter.writeHeader(« first.toFirstLower ».getCounterInformationAsString());
         		«FOR experimentName : experimentClassNames»
-        		run«experimentName»();
+        		for(int i= 0;i<10;i++)run«experimentName»();
         		« ENDFOR »
         	}
         	« FOR experimentName : experimentClassNames »
-        	private static void run«experimentName»(){
+        	«val benchmark = context.model.benchmark»
+        	«IF benchmark»
+        		 @Benchmark
+        		 @BenchmarkMode(Mode.AverageTime)
+        		 @Fork(value = 1)
+        		 @Warmup(iterations = 0)
+        		 @Measurement(iterations = «context.model.iterations», time = 1, timeUnit = TimeUnit.MILLISECONDS)
+        	«ENDIF»
+        	public static void run«experimentName»(){
         		«experimentName» «experimentName.toFirstLower» = new «experimentName»();
         		 if (CommandLineOptions.RESUME.isSet()) {
         		 	String fileName = System.getProperty(CommandLineOptions.RESUME.getSystemProperty());

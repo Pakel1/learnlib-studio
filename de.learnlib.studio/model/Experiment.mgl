@@ -162,6 +162,12 @@ graphModel Experiment {
     	outgoingEdges(ParallelOracleEdge[1,1])
     }
     
+     @palette("Membership Oracles")
+    @style(mealySulNode, "Super Oracle")
+    node SimulateSuperOracle extends NonComplexOracle{
+    	outgoingEdges(ParallelOracleEdge[1,1])
+    }
+    
     @palette("Membership Oracles")
     @icon("icons/experiment/palette/package.png")
     @style(complexSULNode, "SUL Membership Oracle")

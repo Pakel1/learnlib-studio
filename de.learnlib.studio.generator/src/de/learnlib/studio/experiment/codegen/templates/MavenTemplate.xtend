@@ -19,7 +19,10 @@ class MavenTemplate extends AbstractTemplateImpl {
     
     private def getAutomataLibArtifacts() {
         val providers = context.getProviders(AutomataLibArtifactProvider)
+        if(!providers.isNullOrEmpty){
         return providers.map[p | p.automataLibArtifacts as List<String>].flatten.toSet
+        	}
+        
     }
     
     private def getLearnLibArtifacts() {
@@ -120,6 +123,7 @@ class MavenTemplate extends AbstractTemplateImpl {
                     <artifactId>automata-api</artifactId>
                     <version>${automatalib.version}</version>
                 </dependency>
+                «IF !automataLibArtifacts.isNullOrEmpty»
                 « FOR a : automataLibArtifacts »
                     <dependency>
                         <groupId>net.automatalib</groupId>
@@ -127,6 +131,7 @@ class MavenTemplate extends AbstractTemplateImpl {
                         <version>${automatalib.version}</version>
                     </dependency>
                  « ENDFOR »
+                 «ENDIF»
                 
                 <dependency>
                     <groupId>org.slf4j</groupId>
