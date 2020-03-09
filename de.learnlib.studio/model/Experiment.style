@@ -71,8 +71,8 @@ nodeStyle mealySulNode (1) {
         corner (10, 10)
         
         image {
-            position ( CENTER -60, MIDDLE )
-            size (fix 24, fix 24)   
+            position (CENTER -95, MIDDLE)
+           size (fix 24, fix 24)   
             path ("icons/experiment/package.png")
         }
         

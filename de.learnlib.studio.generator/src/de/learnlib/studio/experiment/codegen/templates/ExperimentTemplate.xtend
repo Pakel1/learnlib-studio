@@ -44,6 +44,7 @@ import de.learnlib.studio.experiment.experiment.TTTAlgorithm
 import de.learnlib.studio.experiment.experiment.ADTAlgorithm
 import de.learnlib.studio.experiment.experiment.DHCAlgorithm
 import de.learnlib.studio.experiment.experiment.RandomMealySUL
+import de.learnlib.studio.experiment.experiment.SimulateSuperOracle
 
 class ExperimentTemplate extends AbstractSourceTemplate {
 
@@ -57,7 +58,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     
     private def getOracleInformationProviders() {
         val oracles = currentConfiguration.nodes.filter[n | n instanceof Oracle && !(n instanceof Filter) &&
-        	!(n instanceof ParallelOracle) && !(n instanceof SuperOracle)]
+        	!(n instanceof ParallelOracle) && !(n instanceof SuperOracle) && !(n instanceof SimulateSuperOracle)]
         
         val result = <OracleInformationProvider<? extends Node>> newLinkedList()
         val queue = <Node> newLinkedList(oracles)
@@ -87,7 +88,7 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         val parallelOracle = currentConfiguration.nodes.filter[n | n instanceof ParallelOracle]
         if(!parallelOracle.isEmpty) addNodeToResult(result, parallelOracle.get(0))
         
-        val superOracle = currentConfiguration.nodes.filter[n | n instanceof SuperOracle]
+        val superOracle = currentConfiguration.nodes.filter[n | n instanceof SuperOracle || n instanceof SimulateSuperOracle]
         if(!superOracle.isEmpty) addNodeToResult(result, superOracle.get(0))
         
        	val cache = currentConfiguration.nodes.filter[n | n instanceof CacheFilter && !done.contains(n)]
@@ -371,7 +372,8 @@ class ExperimentTemplate extends AbstractSourceTemplate {
         	 p.node instanceof SymbolCacheFilter ||
         	 p.node instanceof SymbolCounterFilter ||
         	 p.node instanceof SuperOracle ||
-        	 p.node instanceof QSRCounterFilter »
+        	 p.node instanceof QSRCounterFilter ||
+        	 p.node instanceof SimulateSuperOracle »
             private ExperimentSymbolOracle « p.name »;
         « ELSE»
         	private ExperimentOracle « p.name »;

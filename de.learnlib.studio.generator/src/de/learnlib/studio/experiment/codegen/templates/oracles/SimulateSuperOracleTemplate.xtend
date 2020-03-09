@@ -13,11 +13,12 @@ import de.learnlib.studio.experiment.experiment.QSRCounterFilter
 import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
 import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
+import de.learnlib.studio.experiment.experiment.SimulateSuperOracle
 
-class SuperOracleTemplate extends AbstractSourceTemplate implements
-PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArtifactProvider<SuperOracle> {
-	 
-	val SuperOracle node
+class SimulateSuperOracleTemplate extends AbstractSourceTemplate implements
+PerNodeTemplate<SimulateSuperOracle>,OracleInformationProvider<SimulateSuperOracle>, LearnLibArtifactProvider<SimulateSuperOracle> {
+	
+	val SimulateSuperOracle node
 	val int i		
 	
 	new(GeneratorContext context) {
@@ -26,7 +27,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 		this.i = -1
 	}
 	
-	new(GeneratorContext context, SuperOracle node, int i) {
+	new(GeneratorContext context, SimulateSuperOracle node, int i) {
         super(context, "oracles", "LLS_SuperOracle")
         this.node = node
         this.i       = i
@@ -71,6 +72,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	import de.learnlib.api.oracle.MembershipOracle;
 	import de.learnlib.oracle.parallelism.SuperOracle;
 	import de.learnlib.oracle.parallelism.StaticParallelOracle;
+	import de.learnlib.oracle.parallelism.SimulatedSuperOracle;
 	import net.automatalib.words.Alphabet;
 		
 	 public class « className » implements ExperimentSymbolOracle {
@@ -90,7 +92,7 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	     	
 	    @Override		            
 	         public de.learnlib.api.oracle.SymbolQueryOracle getOracle() {
-	         	return new SuperOracle
+	         	return new SimulatedSuperOracle
 	         	((de.learnlib.api.oracle.SymbolQueryOracle) sOracle.getOracle(),(StaticParallelOracle)pOracle.getOracle());
 	         }
 	     			            
