@@ -20,7 +20,7 @@ nodeStyle start {
         appearance {
             background (245, 245, 245)
         }
-        size (100, 65)
+        size (120, 70)
         corner (10, 10)
         text {
             appearance labelFontItalics
@@ -72,6 +72,25 @@ nodeStyle mealySulNode (1) {
         
         image {
             position (CENTER -95, MIDDLE)
+           size (fix 24, fix 24)   
+            path ("icons/experiment/package.png")
+        }
+        
+        text {
+            appearance labelFont
+            position ( CENTER, MIDDLE )
+            value "%1$s"
+        }
+    }
+}
+
+nodeStyle SulNode (1) {
+    roundedRectangle {
+        size (120, 65)
+        corner (10, 10)
+        
+        image {
+            position (CENTER -60, MIDDLE)
            size (fix 24, fix 24)   
             path ("icons/experiment/package.png")
         }

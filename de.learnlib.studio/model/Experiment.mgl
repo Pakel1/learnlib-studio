@@ -133,8 +133,15 @@ graphModel Experiment {
     	prime mealy::Mealy as mealyReference
  		attr EString as name := ""
     }
+     
+      @palette("SUL")
+      @style(mealySulNode,"TAF Mealy SUL")
+    	node TAFMealy extends NonComplexSUL {
+ 		attr EString as path := ""
+    }
     
-   @style(mealySulNode,"${name}")
+    
+   @style(SulNode,"${name}")
    @palette("SUL")
     node RandomMealySUL extends NonComplexSUL {
  		attr EString as name := ""
@@ -144,7 +151,7 @@ graphModel Experiment {
  		attr EString as outputs := "Seperate outputs with -> , <-"
     }
     
-    @style(mealySulNode,"Multiple SUL")
+    @style(complexSULNode,"Complex SUL")
     @palette("SUL")
     container MultipleSUL extends SUL {
     	containableElements(NonComplexSUL)
@@ -216,21 +223,21 @@ graphModel Experiment {
     
     @palette("Filter")
     @icon("icons/experiment/palette/filter.png")
-    @style(queryCounterFilterNode, "QSR Counter Filter")
+    @style(queryCounterFilterNode, "QSR Counter")
     node QSRCounterFilter extends NonComplexFilter{
     	attr EString as name := ""
     }
     
     @palette("Filter")
     @icon("icons/experiment/palette/filter.png")
-    @style(queryCounterFilterNode, "Symbol Counter Filter")
+    @style(queryCounterFilterNode, "Symbol Counter")
     node SymbolCounterFilter extends NonComplexFilter{
     
     }
     
     @palette("Filter")
     @icon("icons/experiment/palette/filter.png")
-    @style(queryCounterFilterNode, "Symbol Cache Filter")
+    @style(queryCounterFilterNode, "Symbol Cache")
     node SymbolCacheFilter extends NonComplexFilter{
     
     }
@@ -403,7 +410,7 @@ graphModel Experiment {
     edge QueryEdge { 
     }
     
-    @style(queryEdge, "Input")
+    @style(queryEdge, "Input / Output")
     edge SulEdge{
     }
     
@@ -411,7 +418,7 @@ graphModel Experiment {
     edge OracleEdge{
     }
     
-    @style(queryEdge, "Membership Oracle")
+    @style(queryEdge, "Parallel Oracle")
     edge ParallelOracleEdge{
     }
     

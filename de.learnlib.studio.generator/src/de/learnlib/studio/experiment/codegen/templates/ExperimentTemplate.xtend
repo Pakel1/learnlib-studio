@@ -99,7 +99,6 @@ class ExperimentTemplate extends AbstractSourceTemplate {
     
     private def getMealyInformationProviders(){
     	val mealys = currentConfiguration.nodes.filter[x | x instanceof SUL]
-    	System.out.println(mealys.head.isComplexNode)
     	val result = <MealyInformationProvider<? extends Node>> newLinkedList()
     	for (currentNode : mealys) {
     		 if (currentNode.isComplexNode) {	            
@@ -116,7 +115,6 @@ class ExperimentTemplate extends AbstractSourceTemplate {
             }
     		
     	}
-    	System.out.println(result.length)
     	return result
     }
     

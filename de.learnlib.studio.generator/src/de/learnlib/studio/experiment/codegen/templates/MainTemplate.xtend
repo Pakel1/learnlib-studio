@@ -87,7 +87,7 @@ class MainTemplate extends AbstractSourceTemplate {
         	
         		EvaluationWriter.writeHeader(« first.toFirstLower ».getCounterInformationAsString());
         		«FOR experimentName : experimentClassNames»
-        		for(int i= 0;i<5;i++)run«experimentName»();
+        		run«experimentName»();
         		« ENDFOR »
         	}
         	« FOR experimentName : experimentClassNames »

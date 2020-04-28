@@ -11,9 +11,10 @@ class OpenMealy extends CincoCustomAction<MealyMembershipOracle> {
         return "Open Mealy"
     }
     
+    //TODO: enable open Mealy for membership oracle with mealy reference
     override execute(MealyMembershipOracle mealyOracle) {
-        val mealy = mealyOracle.mealyReference
-        mealy.openEditor()
+    //    val mealy = mealyOracle.mealyReference
+    //    mealy.openEditor()
     }
     
     override hasDoneChanges() {

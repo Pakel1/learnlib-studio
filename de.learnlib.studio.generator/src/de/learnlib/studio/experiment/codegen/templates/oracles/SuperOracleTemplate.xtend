@@ -13,6 +13,7 @@ import de.learnlib.studio.experiment.experiment.QSRCounterFilter
 import de.learnlib.studio.experiment.experiment.SymbolCacheFilter
 import de.learnlib.studio.experiment.experiment.SULSymbolQueryOracle
 import de.learnlib.studio.experiment.experiment.SymbolCounterFilter
+import de.learnlib.studio.experiment.experiment.QueryEdge
 
 class SuperOracleTemplate extends AbstractSourceTemplate implements
 PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArtifactProvider<SuperOracle> {
@@ -47,9 +48,10 @@ PerNodeTemplate<SuperOracle>,OracleInformationProvider<SuperOracle>, LearnLibArt
 	override getConstructorParameters() {
 		val delegateParallel = node.getOutgoing(ParallelOracleEdge).head.targetElement
 		
+		val symboloracle = node.getOutgoing(QueryEdge).head.targetElement
 		val oracle = getDelegateOracle(delegateParallel)
 		
-		return #[delegateParallel,oracle]
+		return #[delegateParallel,symboloracle]
 	}
 	
 	protected def getDelegateOracle(ParallelOracle delegateParallel) {

@@ -10,10 +10,12 @@ import java.util.LinkedList
 import de.learnlib.studio.experiment.codegen.templates.ExperimentDataTemplate
 import org.eclipse.emf.common.util.EList
 import java.util.ArrayList
+import de.learnlib.studio.experiment.codegen.providers.AutomataLibArtifactProvider
 
 class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeTemplate<RandomMealySUL>,
                    LearnLibArtifactProvider<RandomMealySUL>,
-                   MealyInformationProvider<RandomMealySUL> {
+                   MealyInformationProvider<RandomMealySUL>,
+                   AutomataLibArtifactProvider<RandomMealySUL> {
                    	
     val RandomMealySUL node
     val Integer i
@@ -136,7 +138,6 @@ class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeT
 			}
 			k++
 		}
-		System.out.println("SIZE" + out.size)
 		return out
 	}
 	
@@ -151,6 +152,10 @@ class RandomMealySULTemplate extends AbstractSourceTemplate implements  PerNodeT
 	
 	override inputLength() {
 		return prepareInputs(node.inputs).size
+	}
+	
+	override automataLibArtifacts() {
+		#["automata-serialization-dot"]
 	}
 		
 }			
