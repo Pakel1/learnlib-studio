@@ -125,8 +125,8 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     				StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
     				ArrayList<MembershipOracle> list = mOracles;
     				for( MembershipOracle o : list){
-    					if(o.getClass().equals(CounterQueryOracle.class)) {
-    						CounterQueryOracle temp = (CounterQueryOracle) o;
+    					if(o.getClass().equals(QSRCounterOracle.class)) {
+    						QSRCounterOracle temp = (QSRCounterOracle) o;
     						symbolCount += temp.getSymbolCount();
     						resetCount += temp.getResetCount();
     						queryCount += temp.getQueryCount();
@@ -146,8 +146,8 @@ PerNodeTemplate<ParallelOracle>,OracleInformationProvider<ParallelOracle>, Learn
     			StaticParallelOracle oracle = (StaticParallelOracle) getOracle();
     			ArrayList<MembershipOracle> list = mOracles;
     			for( MembershipOracle o : list){
-    				if(o.getClass().equals(CounterQueryOracle.class)) {
-    					CounterQueryOracle temp = (CounterQueryOracle) o;
+    				if(o.getClass().equals(QSRCounterOracle.class)) {
+    					QSRCounterOracle temp = (QSRCounterOracle) o;
     					symbolCount += temp.getSymbolCount();
     					resetCount += temp.getResetCount();
     					queryCount += temp.getQueryCount();
